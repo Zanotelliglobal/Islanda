@@ -34,13 +34,10 @@ body {
   font-size: 16px;
   line-height: 1.6;
 }
-a { color: var(--accent); text-decoration: none; }
 strong { color: white; font-weight: 600; }
 
-/* ========== TOP NAV ========== */
 .top-nav {
-  position: fixed;
-  top: 0; left: 0; right: 0;
+  position: fixed; top: 0; left: 0; right: 0;
   padding-top: env(safe-area-inset-top);
   background: var(--bg-nav);
   backdrop-filter: saturate(180%) blur(20px);
@@ -48,132 +45,67 @@ strong { color: white; font-weight: 600; }
   border-bottom: 0.5px solid var(--border);
   z-index: 100;
   height: calc(52px + env(safe-area-inset-top));
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding-left: 12px;
-  padding-right: 12px;
+  display: flex; align-items: center; justify-content: center;
+  padding-left: 12px; padding-right: 12px;
+  font-weight: 700; font-size: 15px;
 }
-.top-nav-title { font-weight: 700; font-size: 15px; letter-spacing: -0.2px; }
-.top-nav-title .flag { font-size: 18px; margin-right: 4px; }
-.icon-btn {
-  width: 40px; height: 40px;
-  border: none;
-  background: transparent;
-  color: var(--text);
-  font-size: 20px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 10px;
-}
-.icon-btn:active { background: var(--border); transform: scale(0.95); }
-
-/* ========== CONTENT ========== */
 .content {
   position: fixed;
   top: calc(52px + env(safe-area-inset-top));
-  bottom: calc(140px + env(safe-area-inset-bottom));
+  bottom: calc(150px + env(safe-area-inset-bottom));
   left: 0; right: 0;
-  overflow-y: auto;
-  overflow-x: hidden;
+  overflow-y: auto; overflow-x: hidden;
   -webkit-overflow-scrolling: touch;
   padding: 16px 20px 24px 20px;
 }
-
-/* ========== CHAPTERS LIST (default view) ========== */
-.hero-audio {
+.hero {
   background: linear-gradient(140deg, #0a1929, #1e3a5f, #2c5282);
-  border-radius: 18px;
-  padding: 22px 20px;
-  margin-bottom: 20px;
-  position: relative;
-  overflow: hidden;
+  border-radius: 18px; padding: 22px 20px; margin-bottom: 20px;
+  position: relative; overflow: hidden;
 }
-.hero-audio::before {
-  content: "";
-  position: absolute;
-  top: -60px; right: -60px;
-  width: 180px; height: 180px;
-  border-radius: 50%;
+.hero::before {
+  content: ""; position: absolute; top: -60px; right: -60px;
+  width: 180px; height: 180px; border-radius: 50%;
   background: rgba(212,165,116,0.2);
 }
-.hero-audio > * { position: relative; }
+.hero > * { position: relative; }
 .hero-eyebrow { font-size: 10px; letter-spacing: 3px; color: var(--gold); text-transform: uppercase; font-weight: 700; }
 .hero-title { font-size: 30px; font-weight: 800; letter-spacing: -1px; margin: 6px 0 4px 0; line-height: 1.05; }
 .hero-subtitle { font-size: 13px; color: rgba(255,255,255,0.85); }
-
 .section-label { font-size: 11px; text-transform: uppercase; letter-spacing: 1.5px; color: var(--text-muted); font-weight: 700; padding: 12px 4px 8px 4px; }
-
 .chapter-card {
-  background: var(--bg-elevated);
-  border-radius: 14px;
-  padding: 14px 16px;
-  margin-bottom: 8px;
-  border: 1px solid var(--border);
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  cursor: pointer;
+  background: var(--bg-elevated); border-radius: 14px; padding: 14px 16px;
+  margin-bottom: 8px; border: 1px solid var(--border);
+  display: flex; align-items: center; gap: 14px; cursor: pointer;
   transition: transform 0.15s;
 }
-.chapter-card:active { transform: scale(0.98); background: rgba(96,165,250,0.08); }
+.chapter-card:active { transform: scale(0.98); }
 .chapter-card.playing { border-color: var(--gold); background: rgba(212,165,116,0.06); }
 .chapter-num {
   background: linear-gradient(135deg, #1e3a5f, #2c5282);
-  color: var(--gold);
-  width: 44px; height: 44px;
-  border-radius: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 18px;
-  font-weight: 800;
-  flex-shrink: 0;
+  color: var(--gold); width: 44px; height: 44px; border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px; font-weight: 800; flex-shrink: 0;
 }
-.chapter-card.playing .chapter-num {
-  background: linear-gradient(135deg, var(--gold), #b8894f);
-  color: white;
-}
+.chapter-card.playing .chapter-num { background: linear-gradient(135deg, var(--gold), #b8894f); color: white; }
 .chapter-info { flex: 1; min-width: 0; }
 .chapter-title { font-weight: 600; font-size: 15px; line-height: 1.2; }
 .chapter-meta { font-size: 12px; color: var(--text-muted); margin-top: 3px; }
 .chapter-play-icon { color: var(--text-muted); font-size: 24px; }
 .chapter-card.playing .chapter-play-icon { color: var(--gold); }
 
-/* ========== NOW PLAYING (transcript view) ========== */
 .transcript-view { display: none; }
 .transcript-view.active { display: block; }
 .chapter-list-view.hidden { display: none; }
 .transcript-header {
   background: linear-gradient(140deg, #1e3a5f, #2c5282);
-  border-radius: 16px;
-  padding: 22px 20px;
-  margin-bottom: 18px;
+  border-radius: 16px; padding: 22px 20px; margin-bottom: 18px;
 }
 .transcript-header .num { color: var(--gold); font-size: 12px; letter-spacing: 2px; text-transform: uppercase; font-weight: 700; }
 .transcript-header .title { font-size: 24px; font-weight: 800; letter-spacing: -0.5px; margin: 4px 0; line-height: 1.15; }
 .transcript-header .meta { color: rgba(255,255,255,0.7); font-size: 13px; }
+.transcript-body { font-size: 17px; line-height: 1.7; color: var(--text-secondary); padding: 0 4px; white-space: pre-wrap; }
 
-.transcript-body {
-  font-size: 17px;
-  line-height: 1.7;
-  color: var(--text-secondary);
-  padding: 0 4px;
-}
-.transcript-body p { margin: 0 0 16px 0; }
-.transcript-body p.active {
-  color: var(--text);
-  background: rgba(212,165,116,0.1);
-  border-left: 3px solid var(--gold);
-  padding: 8px 12px;
-  margin: 0 -12px 16px -12px;
-  border-radius: 8px;
-  transition: all 0.3s;
-}
-
-/* ========== PLAYER (fixed bottom) ========== */
 .player {
   position: fixed;
   bottom: 0; left: 0; right: 0;
@@ -185,176 +117,77 @@ strong { color: white; font-weight: 600; }
   z-index: 100;
   padding-top: 12px;
 }
-.player-info {
-  padding: 0 20px 6px 20px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-}
+.player-info { padding: 0 20px 6px 20px; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
 .player-info-text { flex: 1; min-width: 0; }
 .player-info-title { font-size: 14px; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .player-info-sub { font-size: 11px; color: var(--text-muted); }
 .player-speed {
-  background: var(--border);
-  color: var(--text);
-  border: none;
-  padding: 6px 10px;
-  border-radius: 8px;
-  font-size: 12px;
-  font-weight: 600;
-  cursor: pointer;
-  font-family: inherit;
-  min-width: 44px;
+  background: var(--border); color: var(--text); border: none;
+  padding: 6px 10px; border-radius: 8px; font-size: 12px; font-weight: 600;
+  cursor: pointer; font-family: inherit; min-width: 44px;
 }
+.time-info { display: flex; justify-content: space-between; padding: 0 20px; font-size: 11px; color: var(--text-muted); font-variant-numeric: tabular-nums; }
 .player-progress {
-  height: 4px;
-  background: var(--border);
-  margin: 8px 20px 12px 20px;
-  border-radius: 2px;
-  overflow: hidden;
+  height: 4px; background: var(--border);
+  margin: 6px 20px 12px 20px; border-radius: 2px;
+  overflow: hidden; cursor: pointer;
 }
 .player-progress-fill {
   height: 100%;
   background: linear-gradient(to right, var(--brand), var(--gold));
-  width: 0%;
-  transition: width 0.3s ease;
-  border-radius: 2px;
+  width: 0%; border-radius: 2px;
 }
-.player-controls {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 32px;
-  padding: 0 20px 14px 20px;
-}
+.player-controls { display: flex; align-items: center; justify-content: center; gap: 32px; padding: 0 20px 14px 20px; }
 .player-btn {
-  background: transparent;
-  border: none;
-  color: var(--text);
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 22px;
-  padding: 8px;
-  border-radius: 50%;
-  min-width: 48px;
-  min-height: 48px;
+  background: transparent; border: none; color: var(--text);
+  cursor: pointer; display: flex; align-items: center; justify-content: center;
+  font-size: 22px; padding: 8px; border-radius: 50%;
+  min-width: 48px; min-height: 48px;
 }
 .player-btn:active { transform: scale(0.9); }
 .player-btn:disabled { opacity: 0.3; }
 .player-btn-main {
-  background: var(--gold);
-  color: #0a1929;
-  width: 60px; height: 60px;
-  border-radius: 50%;
-  font-size: 26px;
+  background: var(--gold); color: #0a1929;
+  width: 60px; height: 60px; border-radius: 50%; font-size: 26px;
 }
-.player-btn-main:active { transform: scale(0.93); }
-
-/* Voice picker modal */
-.modal-backdrop {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.6);
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.25s;
-  z-index: 199;
-}
-.modal-backdrop.open { opacity: 1; pointer-events: auto; }
-.modal {
-  position: fixed;
-  bottom: 0; left: 0; right: 0;
-  background: var(--bg-elevated);
-  border-radius: 20px 20px 0 0;
-  padding: 20px 20px calc(24px + env(safe-area-inset-bottom));
-  max-height: 70vh;
-  overflow-y: auto;
-  transform: translateY(100%);
-  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  z-index: 200;
-}
-.modal.open { transform: translateY(0); }
-.modal-handle {
-  width: 40px; height: 4px;
-  background: var(--text-muted);
-  border-radius: 2px;
-  margin: 0 auto 16px auto;
-  opacity: 0.4;
-}
-.modal-title { font-size: 18px; font-weight: 700; margin-bottom: 12px; }
-.voice-option {
-  padding: 12px 14px;
-  border-radius: 10px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  border: 1px solid transparent;
-  margin-bottom: 4px;
-  color: var(--text-secondary);
-}
-.voice-option:active { background: var(--border); }
-.voice-option.selected { background: rgba(212,165,116,0.1); border-color: var(--gold); color: var(--text); }
-.voice-option.selected::after { content: "✓"; color: var(--gold); font-weight: 700; }
-.voice-name { font-weight: 500; font-size: 14px; }
-.voice-lang { font-size: 11px; color: var(--text-muted); }
 
 .box {
-  border-radius: 12px;
-  padding: 12px 14px;
-  margin: 12px 0;
-  font-size: 13px;
-  line-height: 1.5;
-  color: var(--text-secondary);
-  border-left: 4px solid var(--brand);
-  background: rgba(96,165,250,0.08);
+  border-radius: 12px; padding: 12px 14px; margin: 12px 0;
+  font-size: 13px; line-height: 1.5; color: var(--text-secondary);
+  border-left: 4px solid var(--brand); background: rgba(96,165,250,0.08);
 }
 .box.gold { border-left-color: var(--gold); background: rgba(212,165,116,0.1); }
 .box-title { font-weight: 700; margin-bottom: 3px; color: var(--text); font-size: 13px; }
+.back-link { cursor: pointer; }
 </style>
 </head>
 <body>
 
-<!-- ============= TOP NAV ============= -->
 <div class="top-nav">
-  <div class="top-nav-title" id="nav-title"><span class="flag">🇮🇸</span>Audioguida Islanda</div>
-  <button class="icon-btn" onclick="openVoicePicker()" aria-label="Voce">🎙️</button>
+  <span id="nav-title">🇮🇸 Audioguida Islanda</span>
 </div>
 
-<!-- ============= CONTENT ============= -->
 <div class="content" id="content">
-
-  <!-- Chapter list -->
   <div class="chapter-list-view" id="chapter-list-view">
-    <div class="hero-audio">
-      <div class="hero-eyebrow">Audioguida documentaristica</div>
+    <div class="hero">
+      <div class="hero-eyebrow">Voce neurale · qualità documentaristica</div>
       <div class="hero-title">Islanda</div>
-      <div class="hero-subtitle">10 capitoli · ~9-10 min ciascuno · voce del vostro dispositivo</div>
+      <div class="hero-subtitle">10 capitoli · voce Diego (Microsoft Neural) · 100% offline</div>
     </div>
     <div class="box gold">
-      <div class="box-title">🎧 Consigli di ascolto</div>
-      Cuffie o altoparlante auto. Tocca 🎙️ in alto per scegliere la voce migliore (su iPhone <strong>"Alice"</strong>, su Android <strong>"Italiano (Italia)"</strong>). Il testo scorre sotto: la frase in corso resta evidenziata.
+      <div class="box-title">🎧 Consigli</div>
+      Cuffie o altoparlante auto. Ogni capitolo è un MP3 reale, si scarica dal server la prima volta e poi resta in cache offline. In Islanda funziona senza dati.
     </div>
     <div class="section-label">I 10 giorni</div>
     <div id="chapter-list"></div>
-    <div class="box" style="margin-top:20px;">
-      <div class="box-title">💡 Vuoi anche i file MP3?</div>
-      Apri questa pagina in <strong>Microsoft Edge</strong> desktop, tasto destro sul testo di un capitolo → "Leggi ad alta voce" → esporta come registrazione. Oppure incolla i testi su <a href="https://ttsmaker.com" target="_blank">ttsmaker.com</a> (gratis, voce italiana, download MP3).
-    </div>
   </div>
 
-  <!-- Transcript view (when playing) -->
   <div class="transcript-view" id="transcript-view">
     <div class="transcript-header" id="transcript-header"></div>
     <div class="transcript-body" id="transcript-body"></div>
   </div>
-
 </div>
 
-<!-- ============= PLAYER ============= -->
 <div class="player">
   <div class="player-info">
     <div class="player-info-text">
@@ -363,281 +196,53 @@ strong { color: white; font-weight: 600; }
     </div>
     <button class="player-speed" id="player-speed" onclick="cycleSpeed()">1.0×</button>
   </div>
-  <div class="player-progress"><div class="player-progress-fill" id="player-progress-fill"></div></div>
+  <div class="time-info">
+    <span id="time-current">0:00</span>
+    <span id="time-total">0:00</span>
+  </div>
+  <div class="player-progress" onclick="seekTo(event)">
+    <div class="player-progress-fill" id="player-progress-fill"></div>
+  </div>
   <div class="player-controls">
-    <button class="player-btn" id="btn-prev" onclick="prevChapter()" aria-label="Precedente">⏮</button>
+    <button class="player-btn" onclick="prevChapter()" aria-label="Precedente">⏮</button>
     <button class="player-btn" onclick="seekBackward()" aria-label="Indietro 15s">⏪</button>
     <button class="player-btn player-btn-main" id="btn-play" onclick="togglePlay()" aria-label="Play/Pausa">▶</button>
     <button class="player-btn" onclick="seekForward()" aria-label="Avanti 15s">⏩</button>
-    <button class="player-btn" id="btn-next" onclick="nextChapter()" aria-label="Successivo">⏭</button>
+    <button class="player-btn" onclick="nextChapter()" aria-label="Successivo">⏭</button>
   </div>
 </div>
 
-<!-- ============= VOICE PICKER MODAL ============= -->
-<div class="modal-backdrop" onclick="closeVoicePicker()"></div>
-<div class="modal" id="voice-modal">
-  <div class="modal-handle"></div>
-  <div class="modal-title">Voce</div>
-  <div id="voice-list"></div>
-</div>
+<audio id="audio-player" preload="metadata"></audio>
 
 <script>
-// ================================================================
-// 10 SCRIPT DOCUMENTARISTICI · Stile National Geographic italiano
-// ================================================================
 const CHAPTERS = [
-{
-n: 1,
-title: "Arrivo a Reykjavík",
-date: "Mer 15 luglio",
-subtitle: "La capitale più a nord del mondo",
-paras: [
-"L'aereo scende. Sotto di voi, un paesaggio impossibile: nero, piatto, senza alberi. È la penisola di Reykjanes, l'ultima frontiera geologica d'Europa. Qui l'Islanda si sta letteralmente rompendo in due. La placca nordamericana si allontana da quella eurasiatica al ritmo di due centimetri all'anno, e sotto le vostre scarpe, mentre camminate all'aeroporto di Keflavík, c'è una spaccatura profonda decine di chilometri.",
-"Nell'anno 874, un capo vichingo di nome Ingólfur Arnarson, in fuga dalla Norvegia per una faida di sangue, si avvicinò a questa costa. Secondo la tradizione, gettò in mare i pilastri lignei del suo trono di famiglia, giurando che avrebbe fondato la sua casa dove gli dei li avessero fatti arrivare. Le colonne toccarono terra in una baia da cui salivano colonne di vapore. Ingólfur la chiamò Reykjavík, la Baia Fumante. Non erano fumi. Erano le sorgenti geotermiche che ancora oggi riscaldano ogni casa della città, ogni piscina, ogni serra.",
-"Reykjavík è la capitale più settentrionale del mondo, ma non aspettatevi una metropoli. Vivono qui centotrentamila persone, un quarto dell'intera popolazione dell'Islanda. È una città a misura d'uomo, di case colorate di lamiera ondulata, dipinte di rosso, giallo, blu. Perché nei mesi bui d'inverno, i colori danno vita.",
-"Il vostro punto di riferimento nel centro sarà Hallgrímskirkja. È la chiesa più alta d'Islanda, settantatré metri, e non assomiglia a nessun altro luogo di culto d'Europa. La sua facciata di cemento sembra una cascata di basalto pietrificato, un omaggio alle colonne esagonali che si trovano ovunque nell'isola. L'architetto Guðjón Samúelsson vi lavorò per anni; la costruzione richiese poi quarantuno anni, dal 1945 al 1986. Davanti alla chiesa si erge una statua austera di Leif Erikson, il vichingo islandese che, secondo le saghe, scoprì il Nord America cinquecento anni prima di Colombo.",
-"Da lì scendete lungo Skólavörðustígur, la Strada della Scuola. Il tratto centrale è stato dipinto ad arcobaleno permanente, simbolo dei diritti civili. L'Islanda fu il primo paese al mondo, nel 2009, ad eleggere un capo di governo apertamente omosessuale.",
-"Girate poi su Laugavegur, l'antica Strada del Bagno. Il nome deriva dalle donne che secoli fa la percorrevano portando la biancheria alle sorgenti termali del Laugardalur, la Valle delle Terme, a est della città. Oggi Laugavegur è la via dello shopping, dei caffè e dei negozi di lopapeysa. Il lopapeysa è il maglione tradizionale islandese, riconoscibile per il motivo circolare intorno al collo, la yoke. Il disegno originale nacque negli anni Cinquanta, ma affonda le radici nell'iconografia dei tappeti orientali, mediata dalle mani di Auður Sveinsdóttir, moglie del Premio Nobel Halldór Laxness.",
-"Camminate fino al porto e incontrerete Harpa, la sala da concerto. La sua facciata di vetro colorato, disegnata dall'artista danese-islandese Ólafur Elíasson, riproduce le forme geometriche delle colonne basaltiche. Al tramonto, quando c'è, la luce che passa attraverso i vetri crea un caleidoscopio dentro la sala.",
-"Poco più avanti, sul lungomare, il Sun Voyager. Non è, come sembra, un vecchio drakkar vichingo. È una scultura d'acciaio del 1990 dell'artista Jón Gunnar Árnason, un'ode al sole. Guardatela di spalle al mare: l'orizzonte, sull'oceano artico, si estende senza ostacoli fino al Circolo Polare.",
-"Se avete tempo, camminate fino al Tjörnin, il piccolo lago urbano. Le anatre sono così abituate alla presenza umana che vengono a prendervi il pane dalle mani. Intorno, il Municipio, la Galleria Nazionale, e una manciata di edifici del Novecento che ospitano la storia culturale del paese.",
-"Il consiglio importante per stasera: cenate presto, entro le venti, e comprate provviste al supermercato Bónus prima delle diciannove e trenta. Il logo, un maialino giallo sorridente, è ovunque. Bónus è il discount più economico del paese; il resto costa il trenta percento in più.",
-"Ma soprattutto, andate a letto presto. Perché stasera in Islanda il sole non tramonterà davvero. Alle undici di sera ci sarà ancora luce piena. All'una di notte sarà crepuscolo. Alle tre, alba. Domani vi aspetta il Golden Circle, il grande anello dei tre siti più iconici dell'isola, e la vostra prima vera immersione nella natura sub-artica. Riposate. Buon sonno, e buon viaggio."
-]
-},
-{
-n: 2,
-title: "Il Golden Circle",
-date: "Gio 16 luglio",
-subtitle: "Il cuore geologico e politico d'Islanda",
-paras: [
-"C'è una ragione se il primo giorno fuori Reykjavík viene chiamato Golden Circle. Non è solo il colore delle cascate al sole, o dei muschi che ricoprono la lava. È che questi tre luoghi, in poche centinaia di chilometri, contengono l'intera storia geologica e politica di questa nazione. Þingvellir, Geysir e Gullfoss. La spaccatura, l'acqua bollente, la potenza dei fiumi glaciali.",
-"Cominciate da Þingvellir. Il nome significa Piani dell'Assemblea. Nel 930 dopo Cristo, i coloni islandesi, senza re, senza corte, senza esercito, si radunarono in questa valle per fondare l'Alþingi: il primo parlamento del mondo. Ogni estate, per due settimane, i capi delle famiglie di tutto il paese cavalcavano fino a qui per discutere leggi, celebrare matrimoni, risolvere dispute. Il Lögsögumaður, l'oratore della legge, saliva su una roccia elevata e recitava a memoria un terzo del codice legale, in modo che tutti sapessero cosa era lecito e cosa no. Per quasi ottocento anni, fino al 1798, l'Alþingi si riunì qui. È la culla della democrazia europea, e nel 2004 l'UNESCO ne ha fatto Patrimonio dell'Umanità.",
-"Ma Þingvellir è anche una meraviglia della geologia. Camminando nella gola dell'Almannagjá si passa letteralmente in mezzo alle placche tettoniche: sulla sinistra la parete della placca nordamericana, sulla destra quella eurasiatica. Sono due continenti che si allontanano. Alla fine della gola c'è la cascata Öxarárfoss, dove nel Medioevo si eseguivano le condanne a morte. La legge islandese dell'epoca prevedeva che gli uomini colpevoli di alto tradimento fossero decapitati, le donne convinte di stregoneria affogate nelle acque dello Drekkingarhylur, il Pozzo dell'Annegamento.",
-"Da Þingvellir procedete verso est per una quarantina di chilometri e arrivate a Haukadalur, la valle dei geyser. Il termine geyser, entrato in tutte le lingue del mondo, viene proprio da qui, dal Grande Geysir islandese, oggi in pausa. Ma accanto ce n'è un altro, più giovane e più affidabile: Strokkur, che significa Zangola. Erutta ogni sei-dieci minuti, scagliando in aria colonne d'acqua alte fino a trenta metri. Guardate la superficie della sorgente: pochi secondi prima dell'eruzione, l'acqua si gonfia in una bolla turchese di due metri di diametro, come un uovo che sta per schiudersi. Poi il rilascio, esplosivo. Il vapore ha temperatura di duecento gradi. Meglio posizionarsi controvento.",
-"Diciotto chilometri più in là, il fiume glaciale Hvítá, letteralmente Fiume Bianco, cade in un canyon di lava con un salto a doppio gradino: è Gullfoss, la Cascata Dorata. Nel 1907 un imprenditore inglese ottenne dal proprietario terriero il diritto di sfruttarla per produrre elettricità. Ma la figlia del contadino, Sigríður Tómasdóttir, si oppose. Camminò a piedi da Gullfoss a Reykjavík, centoventi chilometri, molte volte, per protestare contro il progetto. Minacciò di buttarsi nella cascata. Divenne un'eroina nazionale. Il progetto fallì, la cascata fu salvata. Oggi una lapide accanto al parcheggio la ricorda, forse la prima ambientalista d'Islanda.",
-"A pochi minuti da Gullfoss, in una vallata riparata dal vento, sorge Friðheimar. È una serra riscaldata dall'acqua geotermica dove si coltivano pomodori tutto l'anno, nonostante la latitudine artica. Il ristorante è dentro la serra: si mangia zuppa di pomodoro illimitata, pane fatto in casa, cocktail al basilico. È uno dei pochi luoghi al mondo dove l'agricoltura sotterranea incontra la ristorazione: la vostra prenotazione vi salva dal sold-out estivo.",
-"Prima di rientrare, se il tempo lo permette, cercate Hrunalaug. È una sorgente termale naturale, piccola, quasi segreta. Tre pozze di pietra scavate da pastori un secolo fa, alimentate da una fonte a quarantatré gradi. Si arriva a piedi da un parcheggio dopo un cancello. Uno spogliatoio di legno, nessuna reception, nessun biglietto: si lascia una donazione di mille corone in una cassetta. È l'Islanda vera, quella dei bagni di campagna, prima delle spa dei resort. Contenta sei persone. Se è piena, aspettate, o proseguite.",
-"Stasera dormite a Hlíðarendi, una piccola guesthouse familiare in una valle dominata dal ghiacciaio Eyjafjallajökull, il vulcano che nel 2010 bloccò il cielo europeo. Domani lo vedrete dominare l'orizzonte a sud, mentre partite verso la costa. Il tempo cambierà, la geografia diventerà più selvaggia. Riposate, il viaggio è appena cominciato."
-]
-},
-{
-n: 3,
-title: "La Costa Sud",
-date: "Ven 17 luglio",
-subtitle: "Cascate, spiagge nere, il fuoco sotto il ghiaccio",
-paras: [
-"C'è un'idea, in Islanda, che chi vive sulla costa sud vive sul precipizio. Non è metafora. Sopra le loro teste, letteralmente, c'è la calotta di Vatnajökull e i suoi ghiacciai satellite: Mýrdalsjökull, Eyjafjallajökull. Sotto il ghiaccio, i vulcani. Katla, sotto il Mýrdalsjökull, è considerato dai vulcanologi uno dei più pericolosi del pianeta. L'ultima eruzione fu nel 1918. Statisticamente, è in ritardo di quasi un secolo.",
-"Ma oggi il pericolo è invisibile, la bellezza no. Cominciate da Seljalandsfoss, sessanta metri di caduta d'acqua libera che precipita da una scogliera che un tempo era la linea di costa. È una delle poche cascate al mondo dietro cui si può camminare. Un sentiero circolare passa dietro il getto, entra in una piccola grotta di pietra bagnata, e riemerge dall'altra parte. Portate una giacca impermeabile o costume da bagno: gli spruzzi sono continui.",
-"Un chilometro a nord, se non lo sapete, non lo trovate: Gljúfrabúi. Il nome significa Abitante del Canyon. È una cascata nascosta in una fessura verticale nella roccia. Per raggiungerla si guada un piccolo torrente e ci si infila nella fenditura. Alla fine, dentro una piccola caverna di roccia coperta di muschio verde, c'è la cascata che precipita da un foro nel soffitto. Un raggio di sole, quando entra, disegna un arcobaleno perpetuo.",
-"Trenta chilometri più a est, Skógafoss. Sessanta metri di larghezza, sessanta di caduta. Secondo la leggenda, un vichingo di nome Þrasi seppellì qui, dietro la cascata, un forziere pieno d'oro. Anni dopo, un ragazzo tentò di recuperarlo, ma riuscì solo ad afferrare la maniglia di un anello. La leggenda dice che l'anello sia ancora esposto nella chiesa di Skógar. Salite i cinquecentoventisette gradini della scala laterale: dalla piattaforma alta, il salto della cascata sembra sospeso nel vento.",
-"Poi arrivate a Vík. È il paese più a sud d'Islanda, seicento abitanti, dominato da una piccola chiesa bianca sulla collina, la Reyniskirkja. Vík è famosa per due cose: le sue spiagge di sabbia nera, e il fatto che i vulcanologi hanno stabilito che, se e quando Katla erutterà, il paese sarà spazzato via da uno tsunami di acqua di fusione glaciale. Per questo tutta la popolazione è addestrata a raggiungere la chiesa in caso di allarme: è l'unico punto abbastanza alto da salvarsi.",
-"Sotto la chiesa, la spiaggia. Reynisfjara è considerata dagli esperti la spiaggia più pericolosa d'Islanda. Le onde arrivano da migliaia di chilometri di oceano aperto senza ostacoli, e possiedono un'energia impossibile da giudicare dalla riva. Vengono chiamate sneaker waves, onde di sorpresa: un istante il mare è a venti metri, l'istante dopo vi ha già presi. Ogni anno ci sono vittime. La regola è: mai entro trenta metri dall'acqua, mai dare le spalle al mare, mai posare zaini o treppiedi vicino alla battigia. Le foto si fanno dalle colonne basaltiche esagonali che si ergono in fondo alla spiaggia. Sono chiamate Reynisdrangar, e la leggenda islandese dice che siano tre troll pietrificati dall'alba mentre tentavano di trascinare a riva una nave arenata.",
-"A pochi minuti di auto verso ovest, il promontorio di Dyrhólaey. Il nome significa Collina del Foro nella Porta, e in effetti la scogliera è forata da un enorme arco marino attraverso cui, con acqua calma, passano le barche. Ma il motivo principale per venire qui, a metà luglio, sono le pulcinelle di mare, i puffin. Nidificano nelle scogliere fino ai primi di agosto. Sono uccelli piccoli, curiosi, con becchi arancioni. Un binocolo vi cambia l'esperienza.",
-"Continuate verso est, attraverso Eldhraun. È un campo di lava di seicento chilometri quadrati, oggi ricoperto da un muschio spesso e vellutato di un verde che sembra dipinto. Sotto quel manto morbido c'è la pietra dell'eruzione più devastante della storia europea. Nel 1783, la fessura del vulcano Laki si aprì per otto mesi consecutivi. Emise gas venefici. Uccise metà del bestiame islandese, causò una carestia che ridusse la popolazione del venti percento. La nuvola tossica raggiunse la Francia, e alcuni storici l'hanno collegata alle carestie che precedettero la Rivoluzione Francese. Non uscite dal sentiero: camminare sul muschio significa distruggere sessant'anni di crescita in un secondo.",
-"Poco prima di arrivare a destinazione, fermatevi al canyon di Fjaðrárgljúfur. Cento metri di profondità, due chilometri di lunghezza, scavati da un fiume di fusione glaciale alla fine dell'ultima glaciazione. Un sentiero segue il bordo dall'alto. È stato chiuso al pubblico nel 2019 dopo che un video di Justin Bieber girato qui aveva causato un afflusso turistico devastante per la vegetazione. Oggi ha riaperto, con percorsi protetti.",
-"Stasera dormite a Kirkjubæjarklaustur, un villaggio di duecento anime immerso tra la lava e i ghiacciai. Klausturhof, la vostra guesthouse, è nel cuore del paese, a due passi dalla cascata Systrafoss e da un curioso reticolo di basalto naturale detto Kirkjugólf, il Pavimento della Chiesa: colonne esagonali di lava affiorate dal suolo, che sembrano lastre di pietra tagliate a mano. Cenate al Kaffi Munkar, il ristorante interno. Domani vedrete i ghiacciai. Riposate."
-]
-},
-{
-n: 4,
-title: "Ghiacciai e diamanti",
-date: "Sab 18 luglio",
-subtitle: "Skaftafell, Jökulsárlón, Vestrahorn",
-paras: [
-"Oggi entrate nel dominio del Vatnajökull, il più grande ghiacciaio d'Europa. Ottomila chilometri quadrati di ghiaccio, spesso in alcuni punti quasi un chilometro, che copre l'otto percento della superficie islandese. Sotto di esso ci sono almeno sette vulcani attivi. Quando uno di questi erutta, il ghiaccio si scioglie in fretta, formando un lago sotterraneo che, quando la pressione supera un certo limite, si rompe e si riversa a valle in un'inondazione catastrofica. Gli islandesi hanno una parola per questo: jökulhlaup, corsa del ghiacciaio. È accaduto molte volte nella storia, l'ultima nel 1996, quando l'eruzione del Grímsvötn distrusse decine di chilometri della Ring Road in poche ore.",
-"La vostra prima tappa è Skaftafell, il parco nazionale che sorge tra le lingue glaciali del Vatnajökull. Da lì parte il sentiero per Svartifoss, la Cascata Nera. È una passeggiata di poco meno di quattro chilometri andata e ritorno, con un dislivello leggero. Il premio, alla fine, è una delle immagini più iconiche d'Islanda: una cascata sottile che precipita da una parete verticale di colonne basaltiche esagonali, nere come basalto vulcanico può essere. La regolarità geometrica di queste colonne è sorprendente. Si formano quando la lava, raffreddandosi lentamente, si contrae in strutture cristalline a sei lati. Guðjón Samúelsson, l'architetto della Hallgrímskirkja di Reykjavík, si ispirò proprio a queste colonne per la facciata della chiesa.",
-"Ripresa l'auto, un'ora di guida vi porta a uno dei luoghi più fotografati del pianeta: Jökulsárlón, la laguna glaciale. Fino al 1934 questa laguna non esisteva. Il ghiacciaio Breiðamerkurjökull, una lingua del Vatnajökull, arrivava fino al mare. Poi, con il riscaldamento globale, ha iniziato a ritirarsi. Oggi la laguna copre venti chilometri quadrati e continua a crescere. I blocchi di ghiaccio che si staccano dal fronte glaciale, gli iceberg, galleggiano lentamente verso il mare. Alcuni sono di un blu intenso, altri trasparenti, altri striati di nero per la cenere vulcanica intrappolata secoli fa. Vi si vedono spesso foche, che nuotano tra gli iceberg cacciando salmoni. E se avete fortuna, uno o due jaeger, uccelli marini agili che rubano il pesce alle sterne artiche.",
-"Dall'altra parte della strada c'è la Diamond Beach, la Spiaggia dei Diamanti. Gli iceberg che escono dalla laguna nell'oceano vengono spesso ributtati sulla riva dalle onde. Restano lì, sulla sabbia nera vulcanica, a sciogliersi. La loro trasparenza contro il nero della sabbia crea un effetto ottico che è valso alla spiaggia il suo nome. Alcuni pezzi sono grandi come vitelli, altri come palline di ghiaccio. Ogni marea, ogni giorno, ne porta di nuovi.",
-"Un'ora e mezzo più a est, oltre la piccola cittadina di Höfn, la strada si dirige verso una penisola isolata: Stokksnes. Qui si erge il Vestrahorn, una montagna di gabbro nera come inchiostro, con creste appuntite e ripide. È stato battezzato da alcuni Batman Mountain per il profilo appuntito che ricorda le orecchie del pipistrello. Ai suoi piedi si estendono dune di sabbia nera e paludi di erba pettinata dal vento. Il paesaggio è cinematografico: qui hanno girato scene di Star Trek e Rogue One di Star Wars. La spiaggia dietro l'accesso a pagamento, un cottage-ristorante gestisce la biglietteria, è forse il punto di vista più drammatico di tutta l'isola.",
-"Stasera dormite a Höfn, che in islandese significa semplicemente Porto. È la capitale islandese dell'aragosta, o meglio dello scampo, l'humar. Ogni ristorante ha la sua ricetta. Il Pakkhús, il Magazzino, è un vecchio deposito portuale trasformato in ristorante, dove le langoustine vengono servite alla griglia con burro all'aglio. Prima o poi in Islanda va provata: qui, adesso, è il momento giusto.",
-"Se ne avete l'energia, prima di andare a letto, andate alla Sundlaug Hafnar, la piscina pubblica. Ogni villaggio islandese ne ha una, riscaldata gratuitamente dall'acqua geotermica. Sono il centro sociale, il luogo dove ci si incontra dopo il lavoro, il salotto invernale del paese. Ingresso pochi euro. È il modo più autentico per finire una giornata come questa. Domani, il viaggio piega verso nord."
-]
-},
-{
-n: 5,
-title: "I Fiordi dell'Est",
-date: "Dom 19 luglio",
-subtitle: "La strada più lenta d'Islanda",
-paras: [
-"Oggi non c'è fretta. La costa orientale d'Islanda, i fiordi orientali, o Austfirðir, sono la regione meno visitata, la meno abitata, la meno spettacolare, e forse per questo la più autentica. La strada segue la linea del mare, sale sui promontori, scende nelle baie. Il ritmo è quello del paesaggio: nessuna corsa, nessun highlight ogni cinque minuti, solo un lento respiro di fiordi, uno dopo l'altro.",
-"Un tempo qui si viveva di pesca. Ogni fiordo aveva il suo porto, il suo villaggio, la sua flotta. Poi negli anni Ottanta e Novanta i grandi pescherecci industriali e le quote europee cambiarono tutto. Le popolazioni si sono contratte: alcuni villaggi che nel 1960 avevano duemila abitanti oggi ne hanno duecento. Ma le case sono ancora lì, colorate, custodite. E ogni tanto, in fondo a una baia, appare una barca, un molo, un capannone di sale.",
-"Il vostro primo stop, se scegliete di fermarvi, è Djúpivogur. Un piccolo porto storico, uno dei più antichi del paese: qui approdavano già nel Seicento i mercanti danesi e tedeschi. Il paese ospita un'opera d'arte all'aperto insolita, chiamata Eggin í Gleðivík, le Uova di Gleðivík. Trentaquattro grandi uova di granito allineate lungo il molo, ognuna corrispondente a una specie di uccello che nidifica nella zona. Un tributo silenzioso alla biodiversità aviaria islandese.",
-"Un'ora più a nord, Fáskrúðsfjörður. È un paese piccolo, ma con una storia curiosa: fu costruito nell'Ottocento come base per i marinai francesi che pescavano nell'Atlantico settentrionale. Ancora oggi, per legge, tutti i cartelli stradali del paese sono bilingui: in islandese e in francese. C'è persino un piccolo museo dei marinai francesi, in un edificio ristrutturato. Se il tempo lo consente, pranzate qui: la zuppa di pesce, la fiskisúpa, in questi villaggi è densa di storia.",
-"Ma il gioiello di questa costa è alla fine di un altro percorso: dovete abbandonare la Ring Road, salire il passo di Fjarðarheiði, seicento metri sul livello del mare, e scendere in un fiordo profondo e stretto. È Seyðisfjörður. Poche parole possono descriverlo bene. Case di legno colorate, molte del Novecento, dipinte di rosa, verde acqua, giallo canarino. Un vecchio traghetto per le isole Faroe che parte una volta a settimana. Una piccola chiesa azzurra pastello, la Bláa Kirkjan, in fondo a una strada asfaltata dipinta ad arcobaleno permanente. È qui che nel 2013 hanno girato le scene chiave di I sogni segreti di Walter Mitty di Ben Stiller. Le foto vengono da sé.",
-"Seyðisfjörður è anche un centro artistico. Ogni luglio si tiene il festival LungA, dedicato alle arti giovanili scandinave. I bar hanno musica dal vivo, le gallerie ospitano installazioni. È l'anima creativa dei fiordi, un piccolo Berlino artico.",
-"Da Seyðisfjörður ridiscendete il passo e in venticinque minuti siete a Egilsstaðir, la capitale amministrativa dell'est. Non fermatevi troppo: è una cittadina utilitaria, cresciuta dopo la Seconda Guerra Mondiale per servire la regione. Fate spesa al Bónus prima delle diciannove e trenta, se serve.",
-"Stanotte dormite fuori dal centro, all'Eiðar Hostel. È una vecchia scuola convertita in ostello di campagna, dodici chilometri a nord di Egilsstaðir. Bagni condivisi, cucina self-service, atmosfera essenziale ma pulita. È un modo, se volete, di provare l'ospitalità rurale islandese senza fronzoli. Cucinate qualcosa, guardate fuori dalla finestra fino a tarda ora, quando la luce persiste. Domani sarà uno dei giorni più intensi del viaggio: attraverserete gli altopiani vulcanici e arriverete al lago Mývatn. Il fuoco, questa volta, non sarà sotto il ghiaccio, ma in superficie."
-]
-},
-{
-n: 6,
-title: "Mývatn, terra di lava",
-date: "Lun 20 luglio",
-subtitle: "Al centro del Nord vulcanico",
-paras: [
-"C'è un luogo, nel nord d'Islanda, dove il paesaggio smette di sembrare terrestre e diventa qualcosa di alieno. Il lago Mývatn e la sua zona vulcanica sono, letteralmente, dove la NASA ha addestrato gli astronauti dell'Apollo 11 prima di andare sulla Luna, perché nessun altro luogo al mondo somigliava così tanto al suolo lunare. Oggi ci arriverete voi, e capirete perché.",
-"Ma prima di Mývatn, la vostra strada passa da una delle cascate più impressionanti del pianeta. Dettifoss non è la più alta d'Europa, né la più bella. È la più potente. Cento metri di larghezza, quarantacinque di caduta, centonovantatré metri cubi d'acqua al secondo. È l'acqua di fusione del ghiacciaio Vatnajökull che, dopo aver attraversato per chilometri il canyon del Jökulsárgljúfur, precipita in un abisso di basalto grigio. La stagione delle piogge la rende ancora più impressionante. Il fragore si sente da lontano. Ci arriverete dalla Route 862, lato ovest, quella asfaltata. La 864, dal lato est, è vietata alla vostra Suzuki: strada di ghiaia ruvida, l'assicurazione si annullerebbe.",
-"A un chilometro a monte, sullo stesso sentiero, c'è Selfoss. Non è una cascata, è una serie di cascate, un fronte a semicerchio dove il fiume Jökulsá á Fjöllum, prima di precipitare a Dettifoss, si spezza in decine di getti minori. È meno famosa, ma per molti fotografi è la più elegante.",
-"Riprendete la strada verso Mývatn. Prima di arrivare al lago, la Route 1 attraversa Námaskarð, un campo geotermico attivo. La terra qui è di un arancione bruno, giallo zolfo, bianco calcare. Il suolo bolle. Ci sono mud pot, pozze di fango grigio che borbottano, e fumarole, gettiti di vapore che salgono dritti verticali. L'odore di zolfo è pungente, come uova marce. Non uscite dal sentiero: il suolo sotto la crosta è a temperatura di ebollizione, gli incidenti succedono.",
-"Il lago Mývatn si estende poi davanti a voi, azzurro pallido, punteggiato di piccole isole. Il nome significa Lago delle Mosche. In estate, milioni di midge, moscerini innocui, si sollevano in nubi dense sopra la superficie dell'acqua. Non pungono, ma entrano nei nasi, negli occhi. Un piccolo repellente rende la giornata più piacevole. Il lago si è formato duemila trecento anni fa quando un'eruzione riempì una depressione con lava.",
-"A pranzo, se potete, fermatevi a Vogafjós, il Cowshed Café. È letteralmente attaccato a una stalla: mangiate accanto a una vetrata da cui vedete le mucche in mungitura. La cucina è casalinga: agnello, mozzarella locale, e soprattutto il pane geotermico, hverabrauð. È un pane di segale dolce, cotto per ventiquattro ore sotto terra, dentro pentole di ghisa infilate nella crosta calda della terra. Ha il sapore del pumpernickel, ma più dolce, quasi caramellato.",
-"Nel pomeriggio salite verso Krafla. È il complesso vulcanico più attivo dell'area, che nel 1975 iniziò una fase eruttiva di nove anni, la cosiddetta Krafla Fires. In cima, una cima di duemila anni fa, potete affacciarvi sul cratere Víti, che significa Inferno. Al suo interno, un lago azzurro turchese, freddissimo. Non è mai bollito. È stato scavato da un'eruzione freatica del 1724, quando l'acqua si infiltrò nella camera magmatica e detonò.",
-"Poi Dimmuborgir, i Castelli Oscuri. È un campo di formazioni laviche bizzarre, colonne, archi, torri, alcune alte dieci metri. Si sono formate quando un lago di lava si prosciugò, lasciando esposti i suoi pilastri di sostegno. Nella tradizione islandese, Dimmuborgir è la casa dei tredici Jólasveinar, i Ragazzi di Natale, folletti dispettosi che tra il tredici e il ventiquattro dicembre scendono uno alla volta dai monti nelle case dei bambini islandesi. Sono anche gli abitanti mitologici dei troll islandesi. Serie televisive come Game of Thrones vi hanno girato scene del mondo Oltremuro.",
-"Stasera, la sera, entrate in acqua ai Mývatn Nature Baths. Sono l'equivalente settentrionale della Blue Lagoon, ma meno costosi, meno affollati, e altrettanto belli. Un grande specchio d'acqua bianco-lattiginosa a trentotto gradi, ricco di zolfo e silice. Alle undici di sera, sotto il cielo che non tramonta, guardate le nubi passare sopra i vulcani. È la giornata più aliena del viaggio, e la più islandese."
-]
-},
-{
-n: 7,
-title: "Le balene di Húsavík",
-date: "Mar 21 luglio",
-subtitle: "L'oceano artico e la penisola di Tröllaskagi",
-paras: [
-"Uscite presto oggi. La giornata si apre con una cascata che pochi visitatori conoscono davvero: Goðafoss, la Cascata degli Dei. Il nome viene da un episodio della storia islandese cruciale. Nell'anno 1000, quando la piccola comunità di coloni doveva decidere se convertirsi al cristianesimo o rimanere pagana, il compito di scegliere ricadde su Þorgeir Ljósvetningagoði, il capo pagano più rispettato. Si ritirò sotto un mantello per un giorno intero, poi tornò all'assemblea e dichiarò: l'Islanda diventerà cristiana. Poi tornò a casa, prese le statue di legno dei suoi dèi nordici, Odino, Thor, Freyja, e le gettò in questa cascata. Foto un ricordo, ancora oggi: da lì viene il nome.",
-"Da Goðafoss un'ora di guida vi porta a Húsavík. È il paese più antico d'Islanda, secondo alcune fonti fondato addirittura nel nono secolo da uno svedese di nome Garðar Svavarsson, prima ancora dei vichinghi norvegesi. Ma oggi Húsavík è famosa per un'altra ragione: è la capitale mondiale del whale watching. Nella baia di Skjálfandi convergono le correnti fredde artiche e le più temperate atlantiche. Il plancton fiorisce. E dietro il plancton, arrivano loro: le balene.",
-"Sulla vostra barca di legno tradizionale, un ex peschereccio adattato, uscite dal porto e navigate al largo. Le compagnie garantiscono al novantanove percento un avvistamento tra maggio e settembre. Le specie che potrete vedere sono impressionanti: la balenottera comune, seconda solo alla balenottera azzurra per dimensione, arriva ai ventisei metri; la megattera, l'attrice del gruppo, salta, batte la coda, si tuffa mostrando la pinna caudale; le focene e i delfini a becco bianco, più piccoli, più giocosi, seguono a volte la barca per chilometri. La tuta termica vi viene fornita, ma sotto vestitevi caldi: in mezzo alla baia, anche a luglio, la temperatura può essere di quattro gradi.",
-"Húsavík ha anche un piccolo museo dedicato alle balene, il Húsavík Whale Museum, in un vecchio deposito portuale. Sono esposti scheletri di balena a grandezza naturale, in particolare uno di dieci metri di una femmina di balenottera comune spiaggiata nel 1997. Utili anche i pannelli su Whaling, la caccia commerciale alle balene, che l'Islanda ha praticato fino ai giorni nostri, in violazione della moratoria internazionale, e da cui, dopo decenni di controversie, sta uscendo definitivamente.",
-"Nel pomeriggio, prima di lasciare Húsavík, immergetevi al GeoSea. Sono vasche di acqua geotermica di mare, a quaranta gradi, affacciate direttamente sulla baia. Si sta lì, nell'acqua salata calda, guardando la barca del whale watching rientrare in porto. Se avete fortuna, uno spruzzo lontano vi ricorda che le balene sono a poche centinaia di metri.",
-"Da Húsavík scendete verso Akureyri, la capitale del nord. Con diciannovemila abitanti è la seconda città d'Islanda, con un'atmosfera universitaria e un fiordo tra le montagne che ricorda i piccoli porti norvegesi. Se passate di qui, notate un dettaglio curioso: i semafori. Non hanno il classico disco rosso. Il rosso è a forma di cuore. Fu un'iniziativa del sindaco nel 2008, dopo la crisi finanziaria che gettò il paese nella depressione: piccoli cuori per ricordare che, malgrado tutto, si andava avanti. Il cuore rosso a Akureyri è diventato un simbolo dell'islandesità positiva.",
-"Da Akureyri risalite verso ovest sulla penisola di Tröllaskagi, la Penisola dei Troll. Le montagne qui superano i mille metri, spesso ancora bianche di neve a luglio. Il paesaggio è drammatico: valli profonde, ghiacciai che scendono fino al mare, piccoli porti da cartolina. Attraversate Dalvík, che d'inverno è nota per lo sci, e alcuni minuti dopo arrivate alla vostra destinazione: Höfði Cottages, una manciata di casette di legno affacciate sul fiordo di Eyjafjörður.",
-"Stasera dormite in un cottage tutto vostro. Cucinate all'aperto sul barbecue, aprite una birra, guardate il tramonto che non arriva mai. È la vostra prima notte davvero silenziosa del viaggio. Domani vi aspetta una lunga traversata verso ovest, ma stanotte, semplicemente, siate qui."
-]
-},
-{
-n: 8,
-title: "Attraverso l'Islanda",
-date: "Mer 22 luglio",
-subtitle: "Turf houses, saghe, l'Ovest remoto",
-paras: [
-"Oggi è la giornata più lunga del vostro itinerario. Trecentodieci chilometri, quattro ore e mezzo di guida pura. Ma non è un giorno di sola strada: è un giorno di storia, di quella più antica dell'Islanda. Perché state attraversando le terre che nel Medioevo furono teatro delle grandi saghe, i testi in prosa che, nel Duecento e Trecento, gli islandesi cominciarono a mettere per iscritto per non perdere la memoria dei propri antenati.",
-"La prima tappa è Glaumbær, un'ora e mezzo a nord-ovest da Dalvík. È una fattoria a tetto di torba, una turf house, oggi museo. In un paese senza foreste, i coloni islandesi impararono a costruire le case direttamente nel suolo: pareti spesse fino a due metri di torba e pietra, tetti coperti d'erba per garantire l'isolamento termico. Dentro, il calore del focolare al centro veniva conservato per giorni. Molte turf houses erano abitate fino agli anni Sessanta del Novecento, quando finalmente arrivò il riscaldamento centralizzato in campagna. Glaumbær è la meglio conservata: sette edifici comunicanti, una fattoria intera. E ha una connessione storica sorprendente. In una di queste stanze nacque, forse, il primo cittadino europeo mai nato nel continente americano: Snorri, figlio di Þorfinnur Karlsefni e Guðríður Þorbjarnardóttir, che con una spedizione di coloni islandesi si stabilì per tre anni intorno all'anno 1010 in un luogo chiamato Vínland, che gli storici oggi identificano con l'Anse aux Meadows a Terranova, Canada. Cinquecento anni prima di Colombo.",
-"Da Glaumbær scendete verso il porto di Sauðárkrókur. È un paese di duemilasettecento abitanti, il più grande del nord-ovest islandese. Fermatevi a pranzo al Kaffi Krókur, uno dei caffè storici del paese, in un edificio di legno colorato del primo Novecento. Le zuppe di agnello, kjötsúpa, qui sono servite con verdure di radice e brodo denso, cotto lentamente. Sono il pasto invernale dei contadini, oggi rituale culinario di sabato.",
-"Da Sauðárkrókur la Route 1 svolta verso ovest e attraversa un tratto di territorio che è forse il più desolato dell'intera Ring Road. Si sale su un altopiano privo di alberi, punteggiato da laghi glaciali, e si scende poi su Blönduós, un piccolo porto sull'Atlantico dove il fiume Blanda si getta a mare. Una sosta caffè qui vi serve: mancano ancora due ore alla vostra destinazione.",
-"Continuando verso ovest attraversate Hrútafjörður, il Fiordo delle Pecore. È lungo, stretto, spesso deserto: si guida per quaranta chilometri senza vedere case, solo pecore e ghiaia. Poi la strada gira a sud e finalmente scende in un paesaggio più dolce: le terre della saga più famosa di tutte, la Laxdæla saga, la Saga della Gente della Valle del Salmone.",
-"Al centro di questa terra c'è Búðardalur, un piccolo villaggio agricolo. Fate spesa al Krónan e pieno di benzina alla N1 prima delle diciannove: nella valle dove dormirete stanotte, Hörðudalur, non c'è nulla. Prima di salire, fermatevi cinque minuti a Guðrúnarlaug. È una piccola pozza di acqua geotermale rifatta di recente, dedicata alla memoria di Guðrún Ósvífrsdóttir, la protagonista della Laxdæla saga. Guðrún era la donna più bella d'Islanda del suo tempo. Ebbe quattro mariti, tutti tragici. Alla fine dei suoi giorni, quando il figlio le chiese quale dei suoi uomini avesse amato di più, rispose: quello che ti feci più torto. È una delle frasi più celebri della letteratura medievale scandinava.",
-"Stanotte dormite in un lodge remoto, il Ravencliff, in una valle stretta chiamata Hörðudalur. Nessun negozio nelle vicinanze, nessun altro edificio in vista. Solo cavalli, pecore, e il fiume che scorre. Il check-in è tramite lockbox: aprite con un codice ricevuto per mail. Cucinate voi la cena, aprite una bottiglia di vino comprata a Búðardalur, sedete fuori se non piove. È la notte più silenziosa del viaggio. Domani vi aspetta la penisola più iconica d'Islanda: Snæfellsnes. Riposate bene."
-]
-},
-{
-n: 9,
-title: "Snæfellsnes, Islanda in miniatura",
-date: "Gio 23 luglio",
-subtitle: "Vulcani, scogliere, spiagge e foche",
-paras: [
-"La penisola di Snæfellsnes viene chiamata dagli islandesi Ísland í hnotskurn, l'Islanda in miniatura. In un tratto di ottanta chilometri di terra proiettata nell'Atlantico settentrionale c'è tutto: un vulcano coperto di ghiacciaio, colate laviche recenti, scogliere di uccelli, spiagge nere, colonie di foche, villaggi di pescatori, chiese isolate. È l'Islanda condensata, e per questo è il vostro grand finale.",
-"Cominciate da Stykkishólmur. È un piccolo porto sul Breiðafjörður, la Baia Larga, che collega la penisola al fiordo nord-ovest. Case di legno colorate, un faro rosso e bianco su un piccolo isolotto raggiungibile a piedi con la bassa marea. Wim Wenders vi girò alcune scene di Il cielo sopra Berlino. Un caffè al Narfeyrarstofa, uno dei ristoranti storici di legno del paese, e siete pronti per la strada.",
-"A trentacinque chilometri più a ovest, appare la montagna più fotografata d'Islanda: Kirkjufell, la Montagna della Chiesa. Un cono verde alto quattrocentosessantatré metri, isolato, con una piccola cascata a tre gradini davanti: Kirkjufellsfoss. È da qui che si scatta la foto iconica, il picco con la cascata in primo piano. In Game of Thrones era la montagna a forma di punta di freccia oltre la Barriera. In luglio, la cima è verde: in inverno, sotto la neve, un triangolo bianco perfetto.",
-"Da Kirkjufell continuate verso l'estremità occidentale della penisola, dove sorge il vulcano-ghiacciaio Snæfellsjökull, il Vulcano del Ghiacciaio della Neve. Millequattrocentoquarantasei metri, la sua sommità coperta da un ghiacciaio di quindici chilometri quadrati. Jules Verne, che non lo vide mai di persona, lo scelse nel 1864 come porta d'ingresso al Viaggio al Centro della Terra. La descrizione nel romanzo, sorprendentemente accurata, ha reso il vulcano un luogo di pellegrinaggio letterario.",
-"Ai piedi del vulcano, sulla costa, il piccolo cratere di Saxhóll. Si sale in dieci minuti su una scaletta metallica, e dalla cima c'è una vista a trecentosessanta gradi sulla penisola. Poi, poco più a sud, la spiaggia di Djúpalónssandur. Non è una spiaggia comune: è una distesa di sassi neri arrotondati, alcuni grandi come palle da tennis, altri come cocomeri, levigati dall'oceano. Sulla spiaggia sono ancora sparsi i resti arrugginiti di un peschereccio inglese, il Grimsby, naufragato nel 1948. Quattordici marinai persero la vita, cinque furono salvati dagli abitanti della zona. Il relitto è stato lasciato lì come memoriale.",
-"Camminate poi lungo il sentiero delle scogliere tra Hellnar e Arnarstapi. Due chilometri e mezzo, aperto, un paio d'ore compresa la pausa foto. Il sentiero corre sull'orlo di colonne basaltiche che si tuffano nell'oceano. A Gatklettur, la Roccia con il Foro, un arco naturale attraversa la scogliera. Le colonie di uccelli marini, gabbiani tridattili, urie, gazze marine, gridano nel vento. Il rumore delle onde in fondo, cento metri sotto, arriva attenuato.",
-"Prima di lasciare Snæfellsnes, un'ultima chiesa e un'ultima spiaggia. Búðakirkja, la Chiesetta di Búðir, è una piccola cappella dipinta di nero pece, isolata in un campo di lava ricoperto di muschio, con lo Snæfellsjökull sullo sfondo. Fu ricostruita nel 1848 dopo che la parrocchia originale, del Seicento, era stata abbandonata. Oggi è forse la chiesa più fotografata d'Islanda dopo Hallgrímskirkja.",
-"E poi Ytri-Tunga. È una spiaggia di sabbia biondo-oro, insolita in questo paese di sabbie nere, e sui suoi scogli rocciosi si riposa una colonia stabile di foche grigie e foche comuni. Con il binocolo se ne vedono a decine, distese al sole del pomeriggio.",
-"Da Ytri-Tunga guidate per due ore verso est, superate Borgarnes, imboccate il fiordo di Hvalfjörður. Alle nove di sera arrivate all'Hotel Glymur, il vostro rifugio dell'ultima notte in Islanda. Due vasche geotermiche affacciate sul fiordo vi aspettano. La luce del sole, ancora presente, batte sull'acqua. Cinque minuti d'auto e siete anche a Hvammsvík Hot Springs: otto pozze di temperatura crescente sulla riva del fiordo, l'acqua salata mescolata con quella dolce geotermica. È la degna conclusione del viaggio. Domani il ritorno a casa. Ma stanotte, ancora un ultimo momento d'Islanda vera."
-]
-},
-{
-n: 10,
-title: "L'ultimo giorno",
-date: "Ven 24 luglio",
-subtitle: "Glymur, Reykjavík, e l'aereo che riparte",
-paras: [
-"Vi svegliate all'Hotel Glymur presto. Non è più tempo di dormire. Oggi è l'ultimo giorno, e vi aspetta l'ultima grande esperienza: la cascata più alta d'Islanda accessibile a piedi. Glymur non è la più conosciuta, ma è la più selvaggia. Duecentonovantotto metri di caduta, il doppio dell'Empire State Building. Fino al 2007 era ufficialmente la più alta del paese, poi lo scioglimento glaciale del Vatnajökull ne ha rivelata una ancora più alta, Morsárfoss. Ma Glymur resta la cascata iconica dell'ovest islandese.",
-"Il trailhead è quindici minuti d'auto dall'hotel, in fondo alla valle di Botnsdalur. Da lì parte un sentiero circolare di sette chilometri e mezzo, tre ore e mezzo di cammino. La prima parte è dolce: prati, un fiume, una piccola grotta di lava attraverso cui si passa piegandosi. Poi il sentiero raggiunge il fiume Botnsá. Non c'è ponte. C'è un tronco d'albero fissato al fondo con una corda tirata a mano d'appoggio. In luglio, il livello dell'acqua è tra il ginocchio e la coscia. Si guada scalzi. Il ghiaccio del fiume viene direttamente dai monti: l'acqua è a due o tre gradi centigradi. Portate ciabatte o sandali di riserva, e un piccolo asciugamano.",
-"Attraversato il fiume, il sentiero si arrampica ripidamente lungo il fianco del canyon. Ci sono corde fisse in due punti, per aiutare la salita sulla roccia scivolosa. Arrivati in cima, la vista è quella che vale il viaggio: il canyon è profondo duecento metri, verticale come una tomba, e la cascata di Glymur precipita in fondo, dritta, sottile come un filo bianco. Le gole sono coperte di muschio smeraldo, e le pareti sono nere. Ci sono colonie di uria che nidificano nelle scogliere: si sentono da lontano, il loro grido acuto rimbalzando.",
-"Ridiscendete dall'altra parte del canyon, un sentiero che segue il letto del fiume dall'alto, e chiudete l'anello. Rientrate all'hotel per mezzogiorno, doccia veloce, bagagli in auto, check-out. La reception vi tiene le stanze fino alle tredici se avete chiamato la mattina presto.",
-"Cinquanta chilometri di strada vi separano da Reykjavík. È il vostro ultimo pomeriggio in città. Se vi resta appetito, ci sono tre luoghi da provare almeno una volta prima di partire. Il primo è Café Loki, di fronte alla Hallgrímskirkja. Serve piatti tradizionali islandesi rivisitati: il plokkfiskur, lo stufato di merluzzo e patate, la carne di squalo fermentata, il rúgbrauð, il pane di segale scuro. Il secondo è Bæjarins Beztu Pylsur, letteralmente Il Miglior Hot Dog della Città. Un piccolo chiosco sul lungomare, aperto dal 1937, che ha servito hot dog di agnello al presidente Clinton nel 2004. Costa quattro euro, si mangia in piedi. Il terzo è Sægreifinn, la Vedova del Mare, un piccolo ristorante di pesce nel vecchio porto, famoso per la zuppa di aragosta. Meno di venti euro per un piatto che a Reykjavík è un'istituzione.",
-"Poi Laugavegur, la via dello shopping. Se ancora non l'avete comprata, questa è la vostra ultima occasione per un lopapeysa autentico. Cercate il logo Ístex sul cartellino, che garantisce lana islandese al cento percento. Le boutique più affidabili sono Handknitting Association of Iceland e Geysir. Un buon maglione costa tra i centoventi e i centottanta euro; è tessuto a mano, spesso da signore che vengono citate per nome nell'etichetta.",
-"Alle tre e mezza del pomeriggio dovete essere in strada per Keflavík. Cinquanta chilometri, quaranta minuti in condizioni normali. Prima di riconsegnare l'auto fate il pieno alla stazione N1 di Reykjanesbraut, e conservate lo scontrino: FairCar richiede la prova. Riconsegna alle sedici, ispezione veloce, shuttle al terminal. Alle diciassette siete al check-in.",
-"Al duty-free, un ultimo giro di shopping. Il Brennivín, che significa Vino Bruciato, la grappa nazionale islandese aromatizzata al cumino, va comprato solo qui: negli altri negozi costa il doppio. Lo skyr Ísey, in confezioni piccole per il volo. Il cioccolato Omnom, prodotto in Islanda dal 2013, con packaging da collezione. E, se osate, un pacchetto di hákarl, lo squalo fermentato di cui parla Anthony Bourdain nei suoi documentari: il sapore ricorda l'ammoniaca, ma è una delle poche esperienze culinarie estreme del paese.",
-"Alle diciannove e cinquantacinque, l'aereo decolla. Sotto di voi, mentre salite in quota, l'Islanda si allontana. La costa nera, i ghiacciai bianchi, la lava verde di muschio. In dieci giorni avete percorso millottocento chilometri di questa terra. Avete visto cascate potenti, campi geotermici, penisole di uccelli, saghe medievali fatte pietra. Avete mangiato aragoste, camminato su fiumi, dormito in fattorie remote. Avete ascoltato, forse, un pezzo di quel silenzio che gli islandesi difendono come il loro tesoro.",
-"Alle due e dieci di mattina siete a Malpensa. Domani sarete a casa, e la memoria dell'Islanda comincerà a sedimentare. Non tutta oggi. Non tutta domani. Ma nel tempo, questo viaggio diventerà uno di quelli che si raccontano. Uno di quelli che si ricordano quando si dice: sì, l'ho visto io, con i miei occhi, quel paese ai confini del mondo. Góða ferð, e grazie di avermi ascoltato."
-]
-}
+  {n:1, title:"Arrivo a Reykjavík", date:"Mer 15 luglio", subtitle:"La capitale più a nord del mondo", mp3:"audio/audio-01.mp3"},
+  {n:2, title:"Il Golden Circle", date:"Gio 16 luglio", subtitle:"Il cuore geologico e politico d'Islanda", mp3:"audio/audio-02.mp3"},
+  {n:3, title:"La Costa Sud", date:"Ven 17 luglio", subtitle:"Cascate, spiagge nere, il fuoco sotto il ghiaccio", mp3:"audio/audio-03.mp3"},
+  {n:4, title:"Ghiacciai e diamanti", date:"Sab 18 luglio", subtitle:"Skaftafell, Jökulsárlón, Vestrahorn", mp3:"audio/audio-04.mp3"},
+  {n:5, title:"I Fiordi dell'Est", date:"Dom 19 luglio", subtitle:"La strada più lenta d'Islanda", mp3:"audio/audio-05.mp3"},
+  {n:6, title:"Mývatn, terra di lava", date:"Lun 20 luglio", subtitle:"Al centro del Nord vulcanico", mp3:"audio/audio-06.mp3"},
+  {n:7, title:"Le balene di Húsavík", date:"Mar 21 luglio", subtitle:"L'oceano artico e la penisola di Tröllaskagi", mp3:"audio/audio-07.mp3"},
+  {n:8, title:"Attraverso l'Islanda", date:"Mer 22 luglio", subtitle:"Turf houses, saghe, l'Ovest remoto", mp3:"audio/audio-08.mp3"},
+  {n:9, title:"Snæfellsnes, Islanda in miniatura", date:"Gio 23 luglio", subtitle:"Vulcani, scogliere, spiagge e foche", mp3:"audio/audio-09.mp3"},
+  {n:10, title:"L'ultimo giorno", date:"Ven 24 luglio", subtitle:"Glymur, Reykjavík, e l'aereo che riparte", mp3:"audio/audio-10.mp3"}
 ];
 
-// ================================================================
-// PLAYER LOGIC
-// ================================================================
 let currentChapter = null;
-let currentPara = -1;
-let voices = [];
-let selectedVoice = null;
 let playbackRate = 1.0;
 const RATE_STEPS = [0.85, 1.0, 1.15, 1.3];
-let currentUtterance = null;
-let isPlaying = false;
-
-// Speech synthesis
-const synth = window.speechSynthesis;
-
-function loadVoices() {
-  voices = synth.getVoices();
-  // Prefer Italian voices
-  const itVoices = voices.filter(v => v.lang && v.lang.toLowerCase().startsWith('it'));
-  if (!selectedVoice) {
-    // Prefer neural / enhanced / natural voices
-    const preferred = itVoices.find(v => /premium|enhanced|neural|natural|siri|alice|federica|elsa|luca|paolo/i.test(v.name)) || itVoices[0] || voices[0];
-    selectedVoice = preferred;
-  }
-  renderVoiceList();
-}
-
-synth.onvoiceschanged = loadVoices;
-loadVoices();
-
-function renderVoiceList() {
-  const list = document.getElementById('voice-list');
-  const itVoices = voices.filter(v => v.lang && v.lang.toLowerCase().startsWith('it'));
-  const otherVoices = voices.filter(v => !v.lang || !v.lang.toLowerCase().startsWith('it'));
-  const all = [...itVoices, ...otherVoices.slice(0, 5)];
-  if (all.length === 0) {
-    list.innerHTML = '<p style="color:var(--text-muted);text-align:center;padding:20px;">Caricamento voci in corso... prova a toccare Play per attivarle.</p>';
-    return;
-  }
-  list.innerHTML = all.map((v, i) => `
-    <div class="voice-option ${selectedVoice && v.name === selectedVoice.name ? 'selected' : ''}" onclick="selectVoice('${v.name.replace(/'/g,"\\'")}')">
-      <div>
-        <div class="voice-name">${v.name}</div>
-        <div class="voice-lang">${v.lang}${v.default ? ' · Default' : ''}</div>
-      </div>
-    </div>`).join('');
-}
-
-function selectVoice(name) {
-  selectedVoice = voices.find(v => v.name === name);
-  renderVoiceList();
-  if (isPlaying) {
-    // Restart current para with new voice
-    const wasPara = currentPara;
-    stopSpeaking();
-    currentPara = wasPara - 1;
-    playNext();
-  }
-}
-
-function openVoicePicker() {
-  loadVoices();
-  document.getElementById('voice-modal').classList.add('open');
-  document.querySelector('.modal-backdrop').classList.add('open');
-}
-function closeVoicePicker() {
-  document.getElementById('voice-modal').classList.remove('open');
-  document.querySelector('.modal-backdrop').classList.remove('open');
-}
+const audio = document.getElementById('audio-player');
 
 function renderChapterList() {
-  const html = CHAPTERS.map(c => {
-    const wc = c.paras.join(' ').split(/\s+/).length;
-    const mins = Math.round(wc / 145);
-    return `<div class="chapter-card ${currentChapter === c.n ? 'playing' : ''}" onclick="openChapter(${c.n})">
+  const html = CHAPTERS.map(c => `
+    <div class="chapter-card ${currentChapter === c.n ? 'playing' : ''}" onclick="openChapter(${c.n})">
       <div class="chapter-num">${String(c.n).padStart(2,'0')}</div>
       <div class="chapter-info">
         <div class="chapter-title">${c.title}</div>
-        <div class="chapter-meta">${c.date} · ~${mins} min · ${c.subtitle}</div>
+        <div class="chapter-meta">${c.date} · ${c.subtitle}</div>
       </div>
-      <div class="chapter-play-icon">${currentChapter === c.n && isPlaying ? '⏸' : '▶'}</div>
-    </div>`;
-  }).join('');
+      <div class="chapter-play-icon">▶</div>
+    </div>`).join('');
   document.getElementById('chapter-list').innerHTML = html;
 }
 
@@ -645,173 +250,82 @@ function openChapter(n) {
   const c = CHAPTERS[n - 1];
   if (!c) return;
   currentChapter = n;
-  currentPara = -1;
   document.getElementById('chapter-list-view').classList.add('hidden');
   document.getElementById('transcript-view').classList.add('active');
   document.getElementById('transcript-header').innerHTML = `
-    <div class="num">Capitolo ${String(c.n).padStart(2,'0')}</div>
+    <div class="num">Capitolo ${String(c.n).padStart(2,'0')} · ${c.date}</div>
     <div class="title">${c.title}</div>
-    <div class="meta">${c.date} · ${c.subtitle}</div>`;
-  document.getElementById('transcript-body').innerHTML = c.paras.map((p, i) => `<p id="para-${i}">${p}</p>`).join('');
+    <div class="meta">${c.subtitle}</div>`;
+  document.getElementById('transcript-body').innerHTML = 'Caricamento audio in corso...';
   document.getElementById('player-title').textContent = c.title;
   document.getElementById('player-sub').textContent = `Capitolo ${c.n} · ${c.date}`;
-  document.getElementById('nav-title').innerHTML = `<span onclick="backToChapters()" style="cursor:pointer;">‹ Indice</span>`;
+  document.getElementById('nav-title').innerHTML = '<span class="back-link" onclick="backToChapters()">‹ Indice</span>';
+  audio.src = c.mp3;
+  audio.playbackRate = playbackRate;
+  audio.play().catch(err => {
+    document.getElementById('transcript-body').innerHTML = `⚠️ Impossibile riprodurre l'audio. Verifica che il file <code>${c.mp3}</code> esista.`;
+  });
+  document.getElementById('transcript-body').innerHTML = 'Ascolta con calma. Il testo scritto è nella guida PDF.';
   document.getElementById('content').scrollTop = 0;
-  // Auto-play
-  setTimeout(() => startPlaying(), 200);
 }
 
 function backToChapters() {
-  stopSpeaking();
+  audio.pause();
+  currentChapter = null;
   document.getElementById('chapter-list-view').classList.remove('hidden');
   document.getElementById('transcript-view').classList.remove('active');
-  document.getElementById('nav-title').innerHTML = '<span class="flag">🇮🇸</span>Audioguida Islanda';
-  currentChapter = null;
+  document.getElementById('nav-title').innerHTML = '🇮🇸 Audioguida Islanda';
   renderChapterList();
 }
 
 function togglePlay() {
-  if (!currentChapter) {
-    // No chapter selected, start with #1
-    openChapter(1);
-    return;
-  }
-  if (isPlaying) {
-    pauseSpeaking();
-  } else {
-    if (synth.paused) synth.resume();
-    else startPlaying();
-  }
-  updatePlayButton();
+  if (!currentChapter) { openChapter(1); return; }
+  if (audio.paused) audio.play(); else audio.pause();
 }
 
-function startPlaying() {
-  if (!currentChapter) return;
-  if (currentPara < 0) currentPara = -1;
-  playNext();
-}
+function prevChapter() { if (currentChapter && currentChapter > 1) openChapter(currentChapter - 1); }
+function nextChapter() { if (currentChapter && currentChapter < 10) openChapter(currentChapter + 1); }
+function seekForward() { audio.currentTime = Math.min(audio.duration || 0, audio.currentTime + 15); }
+function seekBackward() { audio.currentTime = Math.max(0, audio.currentTime - 15); }
 
-function playNext() {
-  if (!currentChapter) return;
-  const c = CHAPTERS[currentChapter - 1];
-  currentPara++;
-  if (currentPara >= c.paras.length) {
-    // Chapter ended
-    isPlaying = false;
-    updatePlayButton();
-    updateProgress();
-    // Auto-advance to next chapter (optional)
-    if (currentChapter < 10) {
-      setTimeout(() => {
-        if (confirm(`Capitolo ${currentChapter} finito. Passare al capitolo ${currentChapter + 1}?`)) {
-          openChapter(currentChapter + 1);
-        }
-      }, 500);
-    }
-    return;
-  }
-  highlightPara(currentPara);
-  const text = c.paras[currentPara];
-  const u = new SpeechSynthesisUtterance(text);
-  if (selectedVoice) u.voice = selectedVoice;
-  u.rate = playbackRate;
-  u.pitch = 1.0;
-  u.lang = selectedVoice ? selectedVoice.lang : 'it-IT';
-  u.onend = () => {
-    if (isPlaying) playNext();
-  };
-  u.onerror = (e) => {
-    console.warn('TTS error', e);
-    isPlaying = false;
-    updatePlayButton();
-  };
-  currentUtterance = u;
-  isPlaying = true;
-  synth.speak(u);
-  updatePlayButton();
-  updateProgress();
-}
-
-function pauseSpeaking() {
-  synth.pause();
-  isPlaying = false;
-  updatePlayButton();
-}
-
-function stopSpeaking() {
-  synth.cancel();
-  isPlaying = false;
-  currentUtterance = null;
-  updatePlayButton();
-}
-
-function highlightPara(idx) {
-  document.querySelectorAll('.transcript-body p').forEach(p => p.classList.remove('active'));
-  const el = document.getElementById('para-' + idx);
-  if (el) {
-    el.classList.add('active');
-    el.scrollIntoView({ behavior: 'smooth', block: 'center' });
-  }
-}
-
-function updatePlayButton() {
-  document.getElementById('btn-play').textContent = isPlaying ? '⏸' : '▶';
-}
-
-function updateProgress() {
-  if (!currentChapter) {
-    document.getElementById('player-progress-fill').style.width = '0%';
-    return;
-  }
-  const c = CHAPTERS[currentChapter - 1];
-  const pct = Math.max(0, Math.min(100, ((currentPara + 1) / c.paras.length) * 100));
-  document.getElementById('player-progress-fill').style.width = pct + '%';
-}
-
-function seekForward() {
-  if (!currentChapter) return;
-  stopSpeaking();
-  // Skip ahead: currentPara stays, playNext will bump to next
-  playNext();
-}
-function seekBackward() {
-  if (!currentChapter) return;
-  stopSpeaking();
-  currentPara = Math.max(-1, currentPara - 2);
-  playNext();
-}
-function prevChapter() {
-  if (currentChapter && currentChapter > 1) openChapter(currentChapter - 1);
-}
-function nextChapter() {
-  if (currentChapter && currentChapter < 10) openChapter(currentChapter + 1);
+function seekTo(e) {
+  if (!audio.duration) return;
+  const rect = e.currentTarget.getBoundingClientRect();
+  const pct = (e.clientX - rect.left) / rect.width;
+  audio.currentTime = pct * audio.duration;
 }
 
 function cycleSpeed() {
   const i = RATE_STEPS.indexOf(playbackRate);
   playbackRate = RATE_STEPS[(i + 1) % RATE_STEPS.length];
+  audio.playbackRate = playbackRate;
   document.getElementById('player-speed').textContent = playbackRate + '×';
-  if (isPlaying) {
-    // Restart current para with new speed
-    const wasPara = currentPara;
-    stopSpeaking();
-    currentPara = wasPara - 1;
-    playNext();
-  }
 }
 
-// Handle pause on tab hide
-document.addEventListener('visibilitychange', () => {
-  if (document.hidden && isPlaying) {
-    // Keep playing even in background (may not work on iOS Safari)
+function fmtTime(s) {
+  if (!s || isNaN(s)) return '0:00';
+  const m = Math.floor(s / 60);
+  const sec = Math.floor(s % 60).toString().padStart(2, '0');
+  return `${m}:${sec}`;
+}
+
+audio.addEventListener('play', () => document.getElementById('btn-play').textContent = '⏸');
+audio.addEventListener('pause', () => document.getElementById('btn-play').textContent = '▶');
+audio.addEventListener('timeupdate', () => {
+  const pct = audio.duration ? (audio.currentTime / audio.duration) * 100 : 0;
+  document.getElementById('player-progress-fill').style.width = pct + '%';
+  document.getElementById('time-current').textContent = fmtTime(audio.currentTime);
+  document.getElementById('time-total').textContent = fmtTime(audio.duration);
+});
+audio.addEventListener('ended', () => {
+  if (currentChapter < 10) {
+    if (confirm(`Capitolo ${currentChapter} finito. Passare al capitolo ${currentChapter + 1}?`)) {
+      openChapter(currentChapter + 1);
+    }
   }
 });
 
-// Init
-document.addEventListener('DOMContentLoaded', () => {
-  renderChapterList();
-  loadVoices();
-});
+document.addEventListener('DOMContentLoaded', renderChapterList);
 </script>
 
 </body>
