@@ -5,327 +5,1644 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="Audio Islanda">
+<meta name="apple-mobile-web-app-title" content="Islanda">
 <meta name="theme-color" content="#0a1929">
-<title>🎙️ Audioguida · Islanda</title>
+<title>🇮🇸 Islanda · App</title>
 <style>
 :root {
-  --bg: #0a1929;
-  --bg-elevated: #142640;
-  --bg-nav: rgba(10,25,41,0.9);
-  --text: #f4f4f5;
-  --text-secondary: #cbd5e1;
-  --text-muted: #94a3b8;
-  --brand: #7ba3d0;
+  --bg: #f5f5f7;
+  --bg-elevated: #ffffff;
+  --bg-nav: rgba(255,255,255,0.85);
+  --text: #0a1929;
+  --text-secondary: #3c3c43;
+  --text-muted: #8e8e93;
+  --brand: #1e3a5f;
+  --brand-light: #2c5282;
   --gold: #d4a574;
-  --accent: #60a5fa;
-  --danger: #ef4444;
-  --success: #22c55e;
-  --border: rgba(148,163,184,0.15);
-  --separator: rgba(148,163,184,0.08);
+  --accent: #007aff;
+  --danger: #ff3b30;
+  --warn: #ff9500;
+  --success: #34c759;
+  --border: rgba(60,60,67,0.12);
+  --separator: rgba(60,60,67,0.08);
+  --tab-h: 64px;
+  --header-h: 52px;
+  --shadow-card: 0 1px 3px rgba(10,25,41,0.06);
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #000000;
+    --bg-elevated: #1c1c1e;
+    --bg-nav: rgba(28,28,30,0.85);
+    --text: #ffffff;
+    --text-secondary: #ebebf5;
+    --text-muted: #98989f;
+    --brand: #7ba3d0;
+    --brand-light: #5b8bb8;
+    --gold: #e6b781;
+    --accent: #0a84ff;
+    --danger: #ff453a;
+    --warn: #ff9f0a;
+    --success: #30d158;
+    --border: rgba(84,84,88,0.32);
+    --separator: rgba(84,84,88,0.24);
+    --shadow-card: 0 1px 3px rgba(0,0,0,0.4);
+  }
 }
 * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; margin: 0; padding: 0; }
-html, body { height: 100%; overflow: hidden; overscroll-behavior: none; }
+html, body {
+  height: 100%;
+  overflow: hidden;
+  overscroll-behavior: none;
+}
 body {
   font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-  background: var(--bg);
+  font-size: 15px;
+  line-height: 1.4;
   color: var(--text);
+  background: var(--bg);
   -webkit-font-smoothing: antialiased;
-  font-size: 16px;
-  line-height: 1.6;
 }
-strong { color: white; font-weight: 600; }
+h1, h2, h3, h4 { color: var(--text); font-weight: 700; line-height: 1.2; letter-spacing: -0.3px; }
+h1 { font-size: 34px; letter-spacing: -1.2px; }
+h2 { font-size: 22px; margin: 0 0 8px 0; letter-spacing: -0.5px; }
+h3 { font-size: 17px; margin: 0 0 6px 0; }
+h4 { font-size: 15px; margin: 0 0 4px 0; }
+p { margin: 0 0 8px 0; color: var(--text-secondary); }
+a { color: var(--accent); text-decoration: none; }
+strong { font-weight: 600; color: var(--text); }
+ul, ol { padding-left: 20px; margin: 6px 0; }
+li { margin-bottom: 3px; color: var(--text-secondary); }
 
-.top-nav {
-  position: fixed; top: 0; left: 0; right: 0;
+/* ============= APP SHELL ============= */
+.app-header {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: calc(var(--header-h) + env(safe-area-inset-top));
   padding-top: env(safe-area-inset-top);
   background: var(--bg-nav);
   backdrop-filter: saturate(180%) blur(20px);
   -webkit-backdrop-filter: saturate(180%) blur(20px);
   border-bottom: 0.5px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
   z-index: 100;
-  height: calc(52px + env(safe-area-inset-top));
-  display: flex; align-items: center; justify-content: center;
-  padding-left: 12px; padding-right: 12px;
-  font-weight: 700; font-size: 15px;
+  font-weight: 700;
+  font-size: 17px;
+  letter-spacing: -0.3px;
 }
-.content {
+.header-back {
+  position: absolute;
+  left: 8px;
+  top: env(safe-area-inset-top);
+  height: var(--header-h);
+  padding: 0 12px;
+  display: none;
+  align-items: center;
+  gap: 4px;
+  background: none;
+  border: none;
+  color: var(--accent);
+  font-size: 17px;
+  font-weight: 400;
+  cursor: pointer;
+  font-family: inherit;
+}
+.header-back::before { content: "‹"; font-size: 28px; font-weight: 400; margin-top: -3px; }
+.header-back.visible { display: flex; }
+
+.app-content {
   position: fixed;
-  top: calc(52px + env(safe-area-inset-top));
-  bottom: calc(150px + env(safe-area-inset-bottom));
+  top: calc(var(--header-h) + env(safe-area-inset-top));
+  bottom: calc(var(--tab-h) + env(safe-area-inset-bottom));
   left: 0; right: 0;
-  overflow-y: auto; overflow-x: hidden;
+  overflow-y: auto;
+  overflow-x: hidden;
   -webkit-overflow-scrolling: touch;
-  padding: 16px 20px 24px 20px;
+  padding-bottom: 20px;
 }
-.hero {
-  background: linear-gradient(140deg, #0a1929, #1e3a5f, #2c5282);
-  border-radius: 18px; padding: 22px 20px; margin-bottom: 20px;
-  position: relative; overflow: hidden;
-}
-.hero::before {
-  content: ""; position: absolute; top: -60px; right: -60px;
-  width: 180px; height: 180px; border-radius: 50%;
-  background: rgba(212,165,116,0.2);
-}
-.hero > * { position: relative; }
-.hero-eyebrow { font-size: 10px; letter-spacing: 3px; color: var(--gold); text-transform: uppercase; font-weight: 700; }
-.hero-title { font-size: 30px; font-weight: 800; letter-spacing: -1px; margin: 6px 0 4px 0; line-height: 1.05; }
-.hero-subtitle { font-size: 13px; color: rgba(255,255,255,0.85); }
-.section-label { font-size: 11px; text-transform: uppercase; letter-spacing: 1.5px; color: var(--text-muted); font-weight: 700; padding: 12px 4px 8px 4px; }
-.chapter-card {
-  background: var(--bg-elevated); border-radius: 14px; padding: 14px 16px;
-  margin-bottom: 8px; border: 1px solid var(--border);
-  display: flex; align-items: center; gap: 14px; cursor: pointer;
-  transition: transform 0.15s;
-}
-.chapter-card:active { transform: scale(0.98); }
-.chapter-card.playing { border-color: var(--gold); background: rgba(212,165,116,0.06); }
-.chapter-num {
-  background: linear-gradient(135deg, #1e3a5f, #2c5282);
-  color: var(--gold); width: 44px; height: 44px; border-radius: 12px;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 18px; font-weight: 800; flex-shrink: 0;
-}
-.chapter-card.playing .chapter-num { background: linear-gradient(135deg, var(--gold), #b8894f); color: white; }
-.chapter-info { flex: 1; min-width: 0; }
-.chapter-title { font-weight: 600; font-size: 15px; line-height: 1.2; }
-.chapter-meta { font-size: 12px; color: var(--text-muted); margin-top: 3px; }
-.chapter-play-icon { color: var(--text-muted); font-size: 24px; }
-.chapter-card.playing .chapter-play-icon { color: var(--gold); }
 
-.transcript-view { display: none; }
-.transcript-view.active { display: block; }
-.chapter-list-view.hidden { display: none; }
-.transcript-header {
-  background: linear-gradient(140deg, #1e3a5f, #2c5282);
-  border-radius: 16px; padding: 22px 20px; margin-bottom: 18px;
-}
-.transcript-header .num { color: var(--gold); font-size: 12px; letter-spacing: 2px; text-transform: uppercase; font-weight: 700; }
-.transcript-header .title { font-size: 24px; font-weight: 800; letter-spacing: -0.5px; margin: 4px 0; line-height: 1.15; }
-.transcript-header .meta { color: rgba(255,255,255,0.7); font-size: 13px; }
-.transcript-body { font-size: 17px; line-height: 1.7; color: var(--text-secondary); padding: 0 4px; white-space: pre-wrap; }
-
-.player {
+/* ============= TAB BAR ============= */
+.tab-bar {
   position: fixed;
   bottom: 0; left: 0; right: 0;
+  height: calc(var(--tab-h) + env(safe-area-inset-bottom));
   padding-bottom: env(safe-area-inset-bottom);
   background: var(--bg-nav);
   backdrop-filter: saturate(180%) blur(20px);
   -webkit-backdrop-filter: saturate(180%) blur(20px);
   border-top: 0.5px solid var(--border);
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
   z-index: 100;
-  padding-top: 12px;
 }
-.player-info { padding: 0 20px 6px 20px; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
-.player-info-text { flex: 1; min-width: 0; }
-.player-info-title { font-size: 14px; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.player-info-sub { font-size: 11px; color: var(--text-muted); }
-.player-speed {
-  background: var(--border); color: var(--text); border: none;
-  padding: 6px 10px; border-radius: 8px; font-size: 12px; font-weight: 600;
-  cursor: pointer; font-family: inherit; min-width: 44px;
+.tab-btn {
+  border: none;
+  background: none;
+  color: var(--text-muted);
+  font-family: inherit;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  padding: 6px 4px;
+  font-size: 10px;
+  font-weight: 500;
+  transition: color 0.15s;
 }
-.time-info { display: flex; justify-content: space-between; padding: 0 20px; font-size: 11px; color: var(--text-muted); font-variant-numeric: tabular-nums; }
-.player-progress {
-  height: 4px; background: var(--border);
-  margin: 6px 20px 12px 20px; border-radius: 2px;
-  overflow: hidden; cursor: pointer;
+.tab-btn .tab-icon { font-size: 22px; line-height: 1; }
+.tab-btn.active { color: var(--accent); font-weight: 600; }
+.tab-btn:active { transform: scale(0.94); }
+.tab-btn.sos { color: var(--danger); }
+.tab-btn.sos.active { color: var(--danger); }
+.tab-btn.sos.active .tab-icon { animation: pulse 1.5s infinite; }
+@keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+
+/* ============= TAB PANELS ============= */
+.tab-panel { display: none; padding: 12px 16px 24px 16px; }
+.tab-panel.active { display: block; }
+.tab-panel.no-padding { padding: 0; }
+
+/* ============= LIST GROUP (iOS-style) ============= */
+.list-group {
+  background: var(--bg-elevated);
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 16px;
+  box-shadow: var(--shadow-card);
 }
-.player-progress-fill {
-  height: 100%;
-  background: linear-gradient(to right, var(--brand), var(--gold));
-  width: 0%; border-radius: 2px;
+.list-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  min-height: 48px;
+  border-bottom: 0.5px solid var(--separator);
+  color: var(--text);
+  cursor: pointer;
+  background: var(--bg-elevated);
+  border: none;
+  width: 100%;
+  text-align: left;
+  font-family: inherit;
+  font-size: 15px;
 }
-.player-controls { display: flex; align-items: center; justify-content: center; gap: 32px; padding: 0 20px 14px 20px; }
-.player-btn {
-  background: transparent; border: none; color: var(--text);
-  cursor: pointer; display: flex; align-items: center; justify-content: center;
-  font-size: 22px; padding: 8px; border-radius: 50%;
-  min-width: 48px; min-height: 48px;
-}
-.player-btn:active { transform: scale(0.9); }
-.player-btn:disabled { opacity: 0.3; }
-.player-btn-main {
-  background: var(--gold); color: #0a1929;
-  width: 60px; height: 60px; border-radius: 50%; font-size: 26px;
+.list-item:last-child { border-bottom: none; }
+.list-item:active { background: var(--separator); }
+.list-item .icon { font-size: 20px; width: 28px; text-align: center; flex-shrink: 0; }
+.list-item .label { flex: 1; font-weight: 500; }
+.list-item .value { color: var(--text-muted); font-size: 14px; }
+.list-item .chevron { color: var(--text-muted); font-size: 20px; margin-left: 4px; opacity: 0.5; }
+.list-item .chevron::after { content: "›"; }
+.list-header {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 20px 16px 8px 16px;
 }
 
-.box {
-  border-radius: 12px; padding: 12px 14px; margin: 12px 0;
-  font-size: 13px; line-height: 1.5; color: var(--text-secondary);
-  border-left: 4px solid var(--brand); background: rgba(96,165,250,0.08);
+/* ============= CARDS ============= */
+.card {
+  background: var(--bg-elevated);
+  border-radius: 14px;
+  padding: 16px;
+  margin-bottom: 12px;
+  box-shadow: var(--shadow-card);
 }
-.box.gold { border-left-color: var(--gold); background: rgba(212,165,116,0.1); }
-.box-title { font-weight: 700; margin-bottom: 3px; color: var(--text); font-size: 13px; }
-.back-link { cursor: pointer; }
+.card-hero {
+  background: linear-gradient(140deg, #0a1929, #1e3a5f 60%, #2c5282);
+  color: white;
+  border-radius: 18px;
+  padding: 22px 20px;
+  margin-bottom: 16px;
+  position: relative;
+  overflow: hidden;
+}
+.card-hero::before {
+  content: "";
+  position: absolute;
+  top: -50px; right: -50px;
+  width: 160px; height: 160px;
+  border-radius: 50%;
+  background: rgba(212,165,116,0.15);
+}
+.card-hero > * { position: relative; }
+.card-hero-flag { font-size: 36px; margin-bottom: 6px; }
+.card-hero h1 { color: white; font-size: 32px; letter-spacing: -1px; margin: 0 0 4px 0; }
+.card-hero-subtitle { color: rgba(255,255,255,0.85); font-size: 14px; }
+.card-hero-grid {
+  margin-top: 16px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+.card-hero-stat {
+  background: rgba(255,255,255,0.1);
+  padding: 10px 12px;
+  border-radius: 10px;
+  backdrop-filter: blur(10px);
+}
+.card-hero-stat-label { color: var(--gold); font-size: 10px; text-transform: uppercase; letter-spacing: 1px; font-weight: 700; }
+.card-hero-stat-value { color: white; font-size: 16px; font-weight: 700; margin-top: 2px; }
+
+/* Today badge */
+.today-pill {
+  display: inline-block;
+  background: var(--success);
+  color: white;
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+/* Section title inside tab */
+.section-title {
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  color: var(--text);
+  padding: 4px 4px 12px 4px;
+  margin-top: 4px;
+}
+.section-title.large { font-size: 28px; letter-spacing: -0.8px; }
+.section-subtitle {
+  font-size: 13px;
+  color: var(--text-muted);
+  padding: 0 4px 12px 4px;
+}
+
+/* ============= BUTTONS ============= */
+.btn-row { display: flex; gap: 8px; flex-wrap: wrap; }
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 10px 16px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  color: var(--accent);
+  background: rgba(0,122,255,0.12);
+  text-decoration: none;
+  min-height: 40px;
+}
+.btn:active { transform: scale(0.96); }
+.btn-primary { background: var(--accent); color: white; }
+.btn-success { background: rgba(52,199,89,0.15); color: var(--success); }
+.btn-success.solid { background: var(--success); color: white; }
+.btn-danger { background: var(--danger); color: white; }
+.btn-map { background: rgba(0,122,255,0.12); color: var(--accent); }
+.btn-large { min-height: 52px; font-size: 16px; padding: 14px 20px; }
+.btn-block { width: 100%; }
+
+/* SOS big buttons */
+.sos-btn-huge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 24px;
+  border-radius: 18px;
+  background: var(--danger);
+  color: white;
+  font-size: 22px;
+  font-weight: 700;
+  border: none;
+  width: 100%;
+  cursor: pointer;
+  font-family: inherit;
+  margin-bottom: 12px;
+  box-shadow: 0 6px 20px rgba(255,59,48,0.35);
+  letter-spacing: -0.3px;
+}
+.sos-btn-huge:active { transform: scale(0.97); }
+
+/* Timeline (day details) */
+.timeline { padding: 0; margin: 8px 0; list-style: none; }
+.timeline li {
+  display: grid;
+  grid-template-columns: 54px 1fr;
+  gap: 12px;
+  padding: 10px 0;
+  border-bottom: 0.5px solid var(--separator);
+  align-items: start;
+  color: var(--text-secondary);
+  font-size: 14px;
+  line-height: 1.5;
+}
+.timeline li:last-child { border-bottom: none; }
+.timeline-time { font-weight: 700; color: var(--brand); font-variant-numeric: tabular-nums; }
+@media (prefers-color-scheme: dark) {
+  .timeline-time { color: var(--brand); }
+}
+
+/* Inline map link */
+a.mp {
+  color: var(--accent);
+  font-weight: 500;
+  border-bottom: 0.5px dashed var(--accent);
+}
+a.mp::after { content: " ›"; opacity: 0.6; }
+
+/* ============= HOTEL CARDS ============= */
+.hotel-card {
+  background: var(--bg-elevated);
+  border-radius: 14px;
+  padding: 16px;
+  margin-bottom: 12px;
+  box-shadow: var(--shadow-card);
+  border-left: 4px solid var(--gold);
+}
+.hotel-card-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+.hotel-card-num {
+  background: var(--gold);
+  color: white;
+  width: 26px; height: 26px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+.hotel-card-title { flex: 1; }
+.hotel-card-name { font-weight: 700; font-size: 16px; line-height: 1.25; margin-bottom: 2px; }
+.hotel-card-dates { font-size: 12px; color: var(--text-muted); font-weight: 500; }
+.hotel-card-rating {
+  background: var(--gold);
+  color: white;
+  padding: 2px 8px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+.hotel-card-meta {
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin: 8px 0 12px 0;
+  line-height: 1.45;
+}
+.hotel-card-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+.hotel-card-actions .btn { flex: 1; min-width: 100px; padding: 10px 12px; font-size: 13px; }
+
+/* ============= DAY CARD (in Giorni tab) ============= */
+.day-card {
+  background: var(--bg-elevated);
+  border-radius: 14px;
+  overflow: hidden;
+  margin-bottom: 10px;
+  box-shadow: var(--shadow-card);
+}
+.day-card-summary {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  cursor: pointer;
+  border: none;
+  width: 100%;
+  background: none;
+  text-align: left;
+  font-family: inherit;
+  color: var(--text);
+}
+.day-card-summary:active { background: var(--separator); }
+.day-num-badge {
+  background: linear-gradient(135deg, #0a1929, #1e3a5f);
+  color: var(--gold);
+  width: 44px; height: 44px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  font-weight: 800;
+  flex-shrink: 0;
+}
+.day-info { flex: 1; min-width: 0; }
+.day-info-title { font-size: 15px; font-weight: 700; line-height: 1.2; margin-bottom: 3px; }
+.day-info-meta { font-size: 12px; color: var(--text-muted); }
+.day-chevron { color: var(--text-muted); font-size: 24px; margin-left: 4px; opacity: 0.4; transition: transform 0.2s; }
+.day-card.open .day-chevron { transform: rotate(90deg); }
+.day-card-body { display: none; padding: 4px 16px 16px 16px; border-top: 0.5px solid var(--separator); }
+.day-card.open .day-card-body { display: block; }
+.day-card.today {
+  border: 2px solid var(--success);
+}
+.day-card.today .day-num-badge {
+  background: linear-gradient(135deg, var(--success), #2ea44f);
+  color: white;
+}
+
+/* Progress calendar strip */
+.calendar-strip {
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  gap: 4px;
+  margin-bottom: 16px;
+  padding: 4px;
+}
+.cal-day {
+  aspect-ratio: 1;
+  border-radius: 8px;
+  background: var(--bg-elevated);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text-muted);
+  cursor: pointer;
+  border: 1px solid var(--separator);
+  padding: 2px;
+}
+.cal-day .cal-num { font-size: 15px; font-weight: 800; color: var(--text); }
+.cal-day.past { opacity: 0.35; }
+.cal-day.today { background: var(--success); border-color: var(--success); }
+.cal-day.today .cal-num { color: white; }
+.cal-day.today { color: rgba(255,255,255,0.9); }
+.cal-day:active { transform: scale(0.9); }
+
+/* Alert boxes */
+.box {
+  border-radius: 12px;
+  padding: 12px 14px;
+  margin: 10px 0;
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: var(--text-secondary);
+  border-left: 4px solid var(--brand);
+  background: rgba(30,58,95,0.06);
+}
+.box.warn { border-left-color: var(--warn); background: rgba(255,149,0,0.1); }
+.box.danger { border-left-color: var(--danger); background: rgba(255,59,48,0.1); }
+.box.success { border-left-color: var(--success); background: rgba(52,199,89,0.1); }
+.box.gold { border-left-color: var(--gold); background: rgba(212,165,116,0.12); }
+.box-title { font-weight: 700; margin-bottom: 3px; font-size: 13.5px; color: var(--text); }
+
+/* Table */
+.table-wrap { overflow-x: auto; margin: 6px -4px; -webkit-overflow-scrolling: touch; }
+table { width: 100%; border-collapse: collapse; font-size: 13px; }
+th, td { padding: 8px 10px; text-align: left; border-bottom: 0.5px solid var(--separator); vertical-align: top; }
+th { background: var(--brand); color: white; font-weight: 600; font-size: 11px; text-transform: uppercase; letter-spacing: 0.3px; }
+tr td strong { color: var(--text); }
+
+/* Checklists */
+.checklist { list-style: none; padding: 0; margin: 4px 0; }
+.checklist li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 4px;
+  border-bottom: 0.5px solid var(--separator);
+  cursor: pointer;
+  font-size: 14px;
+  user-select: none;
+  -webkit-user-select: none;
+  color: var(--text-secondary);
+}
+.checklist li input[type="checkbox"] {
+  width: 24px; height: 24px;
+  accent-color: var(--accent);
+  flex-shrink: 0;
+  margin: 0;
+  cursor: pointer;
+}
+.checklist li.done { color: var(--text-muted); text-decoration: line-through; opacity: 0.5; }
+.checklist li:last-child { border-bottom: none; }
+
+/* Phone row (contacts) */
+.phone-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  border-bottom: 0.5px solid var(--separator);
+  background: var(--bg-elevated);
+  min-height: 60px;
+}
+.phone-row:last-child { border-bottom: none; }
+.phone-info { flex: 1; min-width: 0; }
+.phone-name { font-weight: 600; font-size: 15px; color: var(--text); }
+.phone-desc { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+.phone-row .call-btn {
+  background: var(--success);
+  color: white;
+  width: 44px; height: 44px;
+  border-radius: 50%;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  text-decoration: none;
+}
+.phone-row .call-btn.danger { background: var(--danger); }
+
+/* Budget block */
+.budget-total {
+  background: linear-gradient(135deg, var(--brand), var(--brand-light));
+  color: white;
+  border-radius: 16px;
+  padding: 22px;
+  text-align: center;
+  margin: 12px 0;
+}
+.budget-total .lbl { color: var(--gold); font-size: 11px; text-transform: uppercase; letter-spacing: 1.5px; font-weight: 700; }
+.budget-total .val { font-size: 38px; font-weight: 800; margin: 4px 0; line-height: 1; color: white; letter-spacing: -1px; }
+.budget-total .sub { font-size: 13px; color: rgba(255,255,255,0.85); }
+
+/* Small helpers */
+.small { font-size: 12px; }
+.muted { color: var(--text-muted); }
+.center { text-align: center; }
+.mb-0 { margin-bottom: 0 !important; }
+.mt-1 { margin-top: 8px; }
+.divider { height: 0.5px; background: var(--separator); margin: 8px 0; }
+
+/* Search */
+.search-wrap { padding: 8px 12px; position: sticky; top: 0; background: var(--bg); z-index: 10; }
+.search-input {
+  width: 100%;
+  border: none;
+  background: var(--bg-elevated);
+  padding: 10px 14px;
+  border-radius: 10px;
+  font-size: 15px;
+  color: var(--text);
+  outline: none;
+  font-family: inherit;
+}
 </style>
 </head>
 <body>
 
-<div class="top-nav">
-  <span id="nav-title">🇮🇸 Audioguida Islanda</span>
+<!-- ============= APP HEADER ============= -->
+<div class="app-header" id="app-header">
+  <button class="header-back" id="header-back" onclick="goBack()">Info</button>
+  <span id="header-title">Islanda 2026</span>
 </div>
 
-<div class="content" id="content">
-  <div class="chapter-list-view" id="chapter-list-view">
-    <div class="hero">
-      <div class="hero-eyebrow">Voce neurale · qualità documentaristica</div>
-      <div class="hero-title">Islanda</div>
-      <div class="hero-subtitle">10 capitoli · voce Diego (Microsoft Neural) · 100% offline</div>
+<!-- ============= APP CONTENT ============= -->
+<main class="app-content" id="app-content">
+
+<!-- ============= TAB: HOME (OGGI) ============= -->
+<section class="tab-panel active" id="tab-home">
+  <div id="home-content"></div>
+</section>
+
+<!-- ============= TAB: GIORNI ============= -->
+<section class="tab-panel" id="tab-days">
+  <div class="section-title large">Itinerario</div>
+  <div class="section-subtitle">10 giorni · Ring Road + Snæfellsnes</div>
+  <div class="calendar-strip" id="calendar-strip"></div>
+  <div id="days-list"></div>
+</section>
+
+<!-- ============= TAB: HOTEL ============= -->
+<section class="tab-panel" id="tab-hotels">
+  <div class="section-title large">Hotel</div>
+  <div class="section-subtitle">9 notti · Tutte pagate</div>
+  <div id="hotels-list"></div>
+</section>
+
+<!-- ============= TAB: INFO ============= -->
+<section class="tab-panel" id="tab-info">
+  <div id="info-menu">
+    <div class="section-title large">Info</div>
+    <div class="section-subtitle">Riferimenti utili durante il viaggio</div>
+
+    <div class="list-header">Pratico</div>
+    <div class="list-group">
+      <button class="list-item" onclick="openInfoPage('voli')"><span class="icon">✈️</span><span class="label">Voli</span><span class="chevron"></span></button>
+      <button class="list-item" onclick="openInfoPage('auto')"><span class="icon">🚗</span><span class="label">Auto FairCar</span><span class="chevron"></span></button>
+      <button class="list-item" onclick="openInfoPage('guida-auto')"><span class="icon">🛣️</span><span class="label">Guida in Islanda</span><span class="chevron"></span></button>
+      <button class="list-item" onclick="openInfoPage('valigia')"><span class="icon">🎒</span><span class="label">Valigia</span><span class="chevron"></span></button>
+      <button class="list-item" onclick="openInfoPage('budget')"><span class="icon">💰</span><span class="label">Budget</span><span class="chevron"></span></button>
     </div>
-    <div class="box gold">
-      <div class="box-title">🎧 Consigli</div>
-      Cuffie o altoparlante auto. Ogni capitolo è un MP3 reale, si scarica dal server la prima volta e poi resta in cache offline. In Islanda funziona senza dati.
+
+    <div class="list-header">Islanda</div>
+    <div class="list-group">
+      <button class="list-item" onclick="openInfoPage('phrasebook')"><span class="icon">🗣️</span><span class="label">Islandese essenziale</span><span class="chevron"></span></button>
+      <button class="list-item" onclick="openInfoPage('cibo')"><span class="icon">🍽️</span><span class="label">Cibo &amp; shopping</span><span class="chevron"></span></button>
+      <button class="list-item" onclick="openInfoPage('app')"><span class="icon">📱</span><span class="label">App utili</span><span class="chevron"></span></button>
     </div>
-    <div class="section-label">I 10 giorni</div>
-    <div id="chapter-list"></div>
+
+    <div class="list-header">Checklist</div>
+    <div class="list-group">
+      <button class="list-item" onclick="openInfoPage('pre-partenza')"><span class="icon">✅</span><span class="label">Pre-partenza</span><span class="chevron"></span></button>
+    </div>
   </div>
 
-  <div class="transcript-view" id="transcript-view">
-    <div class="transcript-header" id="transcript-header"></div>
-    <div class="transcript-body" id="transcript-body"></div>
-  </div>
-</div>
+  <div id="info-page-container"></div>
+</section>
 
-<div class="player">
-  <div class="player-info">
-    <div class="player-info-text">
-      <div class="player-info-title" id="player-title">Seleziona un capitolo</div>
-      <div class="player-info-sub" id="player-sub">10 capitoli disponibili</div>
+<!-- ============= TAB: AUDIO ============= -->
+<section class="tab-panel no-padding" id="tab-audio">
+  <!-- Mini player sticky -->
+  <div id="audio-player-bar" style="
+    position:sticky; top:0; z-index:10;
+    background:var(--bg-nav);
+    backdrop-filter:saturate(180%) blur(20px);
+    -webkit-backdrop-filter:saturate(180%) blur(20px);
+    border-bottom:0.5px solid var(--border);
+    padding:10px 16px 8px 16px;">
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;">
+      <div style="flex:1;min-width:0;">
+        <div id="ap-title" style="font-size:14px;font-weight:700;color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">Seleziona un capitolo</div>
+        <div id="ap-sub" style="font-size:11px;color:var(--text-muted);">10 capitoli disponibili</div>
+      </div>
+      <button onclick="apCycleSpeed()" id="ap-speed" style="background:var(--border);color:var(--text);border:none;padding:5px 9px;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;">1.0×</button>
     </div>
-    <button class="player-speed" id="player-speed" onclick="cycleSpeed()">1.0×</button>
+    <div style="display:flex;align-items:center;gap:6px;margin-bottom:6px;">
+      <span id="ap-cur" style="font-size:10px;color:var(--text-muted);font-variant-numeric:tabular-nums;width:30px;">0:00</span>
+      <div onclick="apSeek(event)" style="flex:1;height:4px;background:var(--border);border-radius:2px;cursor:pointer;overflow:hidden;">
+        <div id="ap-fill" style="height:100%;background:linear-gradient(to right,var(--brand),var(--gold));width:0%;border-radius:2px;"></div>
+      </div>
+      <span id="ap-tot" style="font-size:10px;color:var(--text-muted);font-variant-numeric:tabular-nums;width:30px;text-align:right;">0:00</span>
+    </div>
+    <div style="display:flex;align-items:center;justify-content:center;gap:20px;">
+      <button onclick="apPrev()" style="background:none;border:none;color:var(--text);font-size:20px;cursor:pointer;padding:6px;border-radius:50%;min-width:40px;min-height:40px;">⏮</button>
+      <button onclick="apBack()" style="background:none;border:none;color:var(--text);font-size:20px;cursor:pointer;padding:6px;border-radius:50%;min-width:40px;min-height:40px;">⏪</button>
+      <button onclick="apToggle()" id="ap-btn" style="background:var(--gold);color:#0a1929;border:none;width:52px;height:52px;border-radius:50%;font-size:22px;cursor:pointer;display:flex;align-items:center;justify-content:center;">▶</button>
+      <button onclick="apFwd()" style="background:none;border:none;color:var(--text);font-size:20px;cursor:pointer;padding:6px;border-radius:50%;min-width:40px;min-height:40px;">⏩</button>
+      <button onclick="apNext()" style="background:none;border:none;color:var(--text);font-size:20px;cursor:pointer;padding:6px;border-radius:50%;min-width:40px;min-height:40px;">⏭</button>
+    </div>
   </div>
-  <div class="time-info">
-    <span id="time-current">0:00</span>
-    <span id="time-total">0:00</span>
-  </div>
-  <div class="player-progress" onclick="seekTo(event)">
-    <div class="player-progress-fill" id="player-progress-fill"></div>
-  </div>
-  <div class="player-controls">
-    <button class="player-btn" onclick="prevChapter()" aria-label="Precedente">⏮</button>
-    <button class="player-btn" onclick="seekBackward()" aria-label="Indietro 15s">⏪</button>
-    <button class="player-btn player-btn-main" id="btn-play" onclick="togglePlay()" aria-label="Play/Pausa">▶</button>
-    <button class="player-btn" onclick="seekForward()" aria-label="Avanti 15s">⏩</button>
-    <button class="player-btn" onclick="nextChapter()" aria-label="Successivo">⏭</button>
-  </div>
-</div>
+  <!-- Chapter list -->
+  <div id="audio-chapter-list" style="padding:12px 16px 24px 16px;"></div>
+</section>
 
-<audio id="audio-player" preload="metadata"></audio>
+<!-- ============= TAB: SOS ============= -->
+<section class="tab-panel" id="tab-sos">
+  <div class="section-title large">Emergenza</div>
+  <div class="section-subtitle">Numeri sempre a portata di tap</div>
+  <div id="sos-content"></div>
+</section>
+
+</main>
+
+<!-- ============= TAB BAR ============= -->
+<nav class="tab-bar">
+  <button class="tab-btn active" onclick="switchTab('home', this)"><span class="tab-icon">🏠</span><span>Oggi</span></button>
+  <button class="tab-btn" onclick="switchTab('days', this)"><span class="tab-icon">📅</span><span>Giorni</span></button>
+  <button class="tab-btn" onclick="switchTab('hotels', this)"><span class="tab-icon">🏨</span><span>Hotel</span></button>
+  <button class="tab-btn" onclick="switchTab('info', this)"><span class="tab-icon">ℹ️</span><span>Info</span></button>
+  <button class="tab-btn" onclick="switchTab('audio', this)"><span class="tab-icon">🎙️</span><span>Audio</span></button>
+  <button class="tab-btn sos" onclick="switchTab('sos', this)"><span class="tab-icon">🚨</span><span>SOS</span></button>
+</nav>
 
 <script>
-const CHAPTERS = [
-  {n:1, title:"Arrivo a Reykjavík", date:"Mer 15 luglio", subtitle:"La capitale più a nord del mondo", mp3:"audio-01.mp3"},
-  {n:2, title:"Il Golden Circle", date:"Gio 16 luglio", subtitle:"Il cuore geologico e politico d'Islanda", mp3:"audio-02.mp3"},
-  {n:3, title:"La Costa Sud", date:"Ven 17 luglio", subtitle:"Cascate, spiagge nere, il fuoco sotto il ghiaccio", mp3:"audio-03.mp3"},
-  {n:4, title:"Ghiacciai e diamanti", date:"Sab 18 luglio", subtitle:"Skaftafell, Jökulsárlón, Vestrahorn", mp3:"audio-04.mp3"},
-  {n:5, title:"I Fiordi dell'Est", date:"Dom 19 luglio", subtitle:"La strada più lenta d'Islanda", mp3:"audio-05.mp3"},
-  {n:6, title:"Mývatn, terra di lava", date:"Lun 20 luglio", subtitle:"Al centro del Nord vulcanico", mp3:"audio-06.mp3"},
-  {n:7, title:"Le balene di Húsavík", date:"Mar 21 luglio", subtitle:"L'oceano artico e la penisola di Tröllaskagi", mp3:"audio-07.mp3"},
-  {n:8, title:"Attraverso l'Islanda", date:"Mer 22 luglio", subtitle:"Turf houses, saghe, l'Ovest remoto", mp3:"audio-08.mp3"},
-  {n:9, title:"Snæfellsnes, Islanda in miniatura", date:"Gio 23 luglio", subtitle:"Vulcani, scogliere, spiagge e foche", mp3:"audio-09.mp3"},
-  {n:10, title:"L'ultimo giorno", date:"Ven 24 luglio", subtitle:"Glymur, Reykjavík, e l'aereo che riparte", mp3:"audio-10.mp3"}
+// ============= MAP URL HELPER =============
+const M = (q) => 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(q);
+
+// ============= DATA: HOTELS =============
+const HOTELS = [
+  { n:1, name:"Guesthouse Aurora", rating:"8.0", dates:"Mer 15 → Gio 16 lug", price:"€188,10", loc:"Reykjavik", addr:"Freyjugata 24, 101 Reykjavík", phone:"+3548991773", phoneDisplay:"+354 899 1773", meta:"⭐ Colazione inclusa · 3 min a piedi da Hallgrímskirkja · WiFi + cucina comune · alcune camere bagno privato altre condiviso", mapQuery:"Guesthouse Aurora Freyjugata 24 Reykjavik" },
+  { n:2, name:"Guesthouse Húsid", rating:"7.4", dates:"Gio 16 → Ven 17 lug", price:"€191,36", loc:"Hlíðarendi", addr:"Husinu, 861 Hlíðarendi", meta:"⭐ Colazione inclusa · casa di campagna familiare · 5 stanze · ⚠️ bagno condiviso · lavandino in camera", mapQuery:"Guesthouse Husid Hlidarendi Iceland" },
+  { n:3, name:"Klausturhof Guesthouse", rating:"7.4", dates:"Ven 17 → Sab 18 lug", price:"€301,56", loc:"Kirkjubæjarklaustur", addr:"Klausturvegur 1-5, 880 Kirkjubæjarklaustur", phone:"+3545677600", phoneDisplay:"+354 567 7600", web:"klausturhof.is", meta:"⭐ Nel centro del villaggio · 2 min da Systrafoss · ristorante Kaffi Munkar interno · alcune camere bagno privato altre condiviso · ⚠️ colazione extra · check-in 16:00-22:00", mapQuery:"Klausturhof Guesthouse Kirkjubaejarklaustur" },
+  { n:4, name:"Guesthouse Hvammur", rating:null, dates:"Sab 18 → Dom 19 lug", price:"€222,14", loc:"Höfn", addr:"Ránarslóð 2, 780 Höfn", phone:"+3548329067", phoneDisplay:"+354 832 9067", meta:"Sul porto, walking distance dai ristoranti · ⚠️ bagno condiviso · ⚠️ colazione extra · piscina pubblica a 50m", mapQuery:"Guesthouse Hvammur Ranarslod Hofn" },
+  { n:5, name:"Eiðar Hostel", rating:null, dates:"Dom 19 → Lun 20 lug", price:"€249,82", loc:"Egilsstaðir", addr:"701 Egilsstaðir · 12 km a nord di Egilsstaðir", meta:"Ex scuola convertita · ⚠️ bagno condiviso · ⚠️ nessuna colazione · cucina self-service · caffè/tè gratuiti in zona comune", mapQuery:"Eidar Hostel Egilsstadir" },
+  { n:6, name:"Skútustaðir Guesthouse", rating:"8.9", dates:"Lun 20 → Mar 21 lug", price:"€300,35", loc:"Mývatn", addr:"Skútustaðir 2B, riva sud lago Mývatn", meta:"⭐ Fattoria attiva con mucche · ⭐ colazione inclusa (pane fatto in casa, trota affumicata) · 🍦 gelateria fattoria · di fronte ai pseudo-crateri", mapQuery:"Skutustadir Guesthouse Myvatn" },
+  { n:7, name:"Höfði Cottages", rating:"8.8", dates:"Mar 21 → Mer 22 lug", price:"€149,44", loc:"Dalvík", addr:"Ólafsfjarðarvegur, Dalvík", meta:"⭐ Cottage privato indipendente · cucina completa · BBQ in patio · self check-in via lockbox · ⚠️ no colazione · vista monti/oceano", mapQuery:"Hofdi Cottages Dalvik" },
+  { n:8, name:"Ravencliff Lodge", rating:"8.5", dates:"Mer 22 → Gio 23 lug", price:"€196,06", loc:"Hlíð í Hörðudal", addr:"Hörðudalsvegur eystri, Fremri-Hrafnabjörg", meta:"Cabina rurale · valle remota · self check-in keybox · ⚠️ no colazione · ⚠️ nessun negozio vicino · vicini = cavalli e pecore", mapQuery:"Ravencliff Lodge Hordudalur" },
+  { n:9, name:"Hotel Glymur", rating:"9.0", dates:"Gio 23 → Ven 24 lug", price:"€279,00", loc:"Hvalfjarðarsveit", addr:"Hvalfjarðarsveit · sul fiordo Hvalfjörður", meta:"⭐ 4★ boutique · 2 hot tub all'aperto vista fiordo · ristorante interno · sauna · ⚠️ colazione €26pp extra", mapQuery:"Hotel Glymur Hvalfjardarsveit" }
 ];
 
-let currentChapter = null;
-let playbackRate = 1.0;
-const RATE_STEPS = [0.85, 1.0, 1.15, 1.3];
-const audio = document.getElementById('audio-player');
-
-function renderChapterList() {
-  const html = CHAPTERS.map(c => `
-    <div class="chapter-card ${currentChapter === c.n ? 'playing' : ''}" onclick="openChapter(${c.n})">
-      <div class="chapter-num">${String(c.n).padStart(2,'0')}</div>
-      <div class="chapter-info">
-        <div class="chapter-title">${c.title}</div>
-        <div class="chapter-meta">${c.date} · ${c.subtitle}</div>
-      </div>
-      <div class="chapter-play-icon">▶</div>
-    </div>`).join('');
-  document.getElementById('chapter-list').innerHTML = html;
-}
-
-function openChapter(n) {
-  const c = CHAPTERS[n - 1];
-  if (!c) return;
-  currentChapter = n;
-  document.getElementById('chapter-list-view').classList.add('hidden');
-  document.getElementById('transcript-view').classList.add('active');
-  document.getElementById('transcript-header').innerHTML = `
-    <div class="num">Capitolo ${String(c.n).padStart(2,'0')} · ${c.date}</div>
-    <div class="title">${c.title}</div>
-    <div class="meta">${c.subtitle}</div>`;
-  document.getElementById('transcript-body').innerHTML = 'Caricamento audio in corso...';
-  document.getElementById('player-title').textContent = c.title;
-  document.getElementById('player-sub').textContent = `Capitolo ${c.n} · ${c.date}`;
-  document.getElementById('nav-title').innerHTML = '<span class="back-link" onclick="backToChapters()">‹ Indice</span>';
-  audio.src = c.mp3;
-  audio.playbackRate = playbackRate;
-  audio.play().catch(err => {
-    document.getElementById('transcript-body').innerHTML = `⚠️ Impossibile riprodurre l'audio. Verifica che il file <code>${c.mp3}</code> esista.`;
-  });
-  document.getElementById('transcript-body').innerHTML = 'Ascolta con calma. Il testo scritto è nella guida PDF.';
-  document.getElementById('content').scrollTop = 0;
-}
-
-function backToChapters() {
-  audio.pause();
-  currentChapter = null;
-  document.getElementById('chapter-list-view').classList.remove('hidden');
-  document.getElementById('transcript-view').classList.remove('active');
-  document.getElementById('nav-title').innerHTML = '🇮🇸 Audioguida Islanda';
-  renderChapterList();
-}
-
-function togglePlay() {
-  if (!currentChapter) { openChapter(1); return; }
-  if (audio.paused) audio.play(); else audio.pause();
-}
-
-function prevChapter() { if (currentChapter && currentChapter > 1) openChapter(currentChapter - 1); }
-function nextChapter() { if (currentChapter && currentChapter < 10) openChapter(currentChapter + 1); }
-function seekForward() { audio.currentTime = Math.min(audio.duration || 0, audio.currentTime + 15); }
-function seekBackward() { audio.currentTime = Math.max(0, audio.currentTime - 15); }
-
-function seekTo(e) {
-  if (!audio.duration) return;
-  const rect = e.currentTarget.getBoundingClientRect();
-  const pct = (e.clientX - rect.left) / rect.width;
-  audio.currentTime = pct * audio.duration;
-}
-
-function cycleSpeed() {
-  const i = RATE_STEPS.indexOf(playbackRate);
-  playbackRate = RATE_STEPS[(i + 1) % RATE_STEPS.length];
-  audio.playbackRate = playbackRate;
-  document.getElementById('player-speed').textContent = playbackRate + '×';
-}
-
-function fmtTime(s) {
-  if (!s || isNaN(s)) return '0:00';
-  const m = Math.floor(s / 60);
-  const sec = Math.floor(s % 60).toString().padStart(2, '0');
-  return `${m}:${sec}`;
-}
-
-audio.addEventListener('play', () => document.getElementById('btn-play').textContent = '⏸');
-audio.addEventListener('pause', () => document.getElementById('btn-play').textContent = '▶');
-audio.addEventListener('timeupdate', () => {
-  const pct = audio.duration ? (audio.currentTime / audio.duration) * 100 : 0;
-  document.getElementById('player-progress-fill').style.width = pct + '%';
-  document.getElementById('time-current').textContent = fmtTime(audio.currentTime);
-  document.getElementById('time-total').textContent = fmtTime(audio.duration);
-});
-audio.addEventListener('ended', () => {
-  if (currentChapter < 10) {
-    if (confirm(`Capitolo ${currentChapter} finito. Passare al capitolo ${currentChapter + 1}?`)) {
-      openChapter(currentChapter + 1);
-    }
+// ============= DATA: DAYS =============
+const DAYS = [
+  {
+    n:1, date:"Mer 15 luglio", title:"Arrivo + Reykjavik", route:"Keflavik → Reykjavik", stats:"~50 km · Easy",
+    hotel: 0,
+    timeline: [
+      ["09:55", `<strong>Atterraggio</strong> a <a class="mp" href="${M('Keflavik International Airport')}">Keflavik</a>`],
+      ["10:30", `<strong>Ritiro FairCar</strong> · <a class="mp" href="${M('Bogatrod 1 Keflavik')}">Bogatröð 1</a> (shuttle gratuito)`],
+      ["11:30", `Opzionale: <a class="mp" href="${M('Bridge Between Continents Reykjanes')}">Bridge Between Continents</a>`],
+      ["13:00", `Check-in Aurora · pranzo <a class="mp" href="${M('Cafe Loki Reykjavik')}">Café Loki</a>`],
+      ["14:30", `Tour: <a class="mp" href="${M('Hallgrimskirkja Reykjavik')}">Hallgrímskirkja</a> · Skólavörðustígur · Laugavegur · <a class="mp" href="${M('Harpa Concert Hall Reykjavik')}">Harpa</a> · <a class="mp" href="${M('Sun Voyager Reykjavik')}">Sun Voyager</a> · <a class="mp" href="${M('Tjornin Reykjavik')}">Tjörnin</a>`],
+      ["17:00", `Pausa <a class="mp" href="${M('Reykjavik Roasters')}">Reykjavik Roasters</a>`],
+      ["17:30", `🛒 Spesa <a class="mp" href="${M('Bonus Hallveigarstigur Reykjavik')}">Bónus Hallveigarstígur</a> (chiude 19:30!)`],
+      ["19:30", `Cena: <a class="mp" href="${M('Messinn Reykjavik')}">Messinn</a> · <a class="mp" href="${M('Baejarins Beztu Pylsur Reykjavik')}">Bæjarins Beztu</a> hot dog €4`],
+      ["21:30", `A letto presto (maschera dormire!)`]
+    ],
+    boxes: [ {type:"success", title:"💡 Tip", text:"Bónus (logo maialino giallo) 30-40% meno caro. Acqua rubinetto = migliore al mondo."} ]
+  },
+  {
+    n:2, date:"Gio 16 luglio", title:"Golden Circle", route:"Reykjavik → Hlíðarendi", stats:"~250 km · 4h guida",
+    hotel: 1,
+    timeline: [
+      ["07:45", "Partenza (evitare bus turistici)"],
+      ["08:30", `<a class="mp" href="${M('Thingvellir National Park')}">Þingvellir</a>: parlamento vichingo + Öxarárfoss · 1h30`],
+      ["11:00", `<a class="mp" href="${M('Geysir Iceland')}">Geysir + Strokkur</a>: erutta ogni 6-10 min · 45 min`],
+      ["12:30", `<a class="mp" href="${M('Gullfoss Iceland')}">Gullfoss</a>: cascata a doppio salto · 1h`],
+      ["14:00", `🍅 Pranzo <a class="mp" href="${M('Fridheimar Reykholt Iceland')}">Friðheimar</a> (consigliato) zuppa illimitata`],
+      ["15:30", `♨️ <a class="mp" href="${M('Hrunalaug Hot Spring Iceland')}">Hrunalaug Hot Spring</a> gratis (donaz. 1.000 ISK)`],
+      ["17:30", "Drive Hlíðarendi (~70 km)"],
+      ["18:30", "Check-in Húsid"],
+      ["19:30", `Cena <a class="mp" href="${M('Eldsto Art Cafe Hvolsvollur')}">Eldstó Art Café</a> (10 min)`]
+    ],
+    boxes: [ {type:"gold", title:"♨️ Hrunalaug tip", text:"Vasca piccola (max 6). Vai 15:00-16:00. Costume sotto vestiti, asciugamano + ciabatte. Piano B se piena = Secret Lagoon €30pp."} ]
+  },
+  {
+    n:3, date:"Ven 17 luglio", title:"Costa Sud Ovest ★★★", route:"Hlíðarendi → Kirkjubæjarklaustur", stats:"~190 km · 3h guida",
+    hotel: 2,
+    timeline: [
+      ["08:15", "Partenza Route 1 est"],
+      ["08:45", `💦 <a class="mp" href="${M('Seljalandsfoss Iceland')}">Seljalandsfoss</a>: cammini dietro (giacca/costume+asciug.)`],
+      ["09:30", `💎 <a class="mp" href="${M('Gljufrabui Iceland')}">Gljúfrabúi</a>: cascata segreta in fessura`],
+      ["10:30", `💦 <a class="mp" href="${M('Skogafoss Iceland')}">Skógafoss</a>: 60m, 527 gradini vista alta`],
+      ["12:00", `Opz: ♨️ <a class="mp" href="${M('Seljavallalaug Iceland')}">Seljavallalaug</a> gratis (15 min walk)`],
+      ["13:00", `Pranzo Vík: <a class="mp" href="${M('Sudur Vik Restaurant Vik')}">Suður-Vík</a>`],
+      ["14:30", `🏖️ <a class="mp" href="${M('Reynisfjara Beach Iceland')}">Reynisfjara</a> ⚠️ ONDE SNEAKER`],
+      ["15:30", `🦜 <a class="mp" href="${M('Dyrholaey Iceland')}">Dyrhólaey</a>: arco + puffins (binocolo!)`],
+      ["17:30", "Drive attraverso Eldhraun"],
+      ["18:30", `🏞️ <a class="mp" href="${M('Fjadrargljufur Canyon Iceland')}">Fjaðrárgljúfur</a>: canyon 100m gratis`],
+      ["19:45", "Check-in Klausturhof"],
+      ["20:00", `Bonus: <a class="mp" href="${M('Systrafoss Kirkjubaejarklaustur')}">Systrafoss</a> (2 min dietro hotel) + <a class="mp" href="${M('Kirkjugolf Kirkjubaejarklaustur')}">Kirkjugólf</a>`],
+      ["20:30", `Cena <a class="mp" href="${M('Kaffi Munkar Kirkjubaejarklaustur')}">Kaffi Munkar</a> (interno) o Kjarr`]
+    ],
+    boxes: [
+      {type:"danger", title:"🚨 Reynisfjara", text:"Spiaggia più pericolosa d'Islanda. Onde sneaker improvvise. Mai entro 30m dall'acqua, mai dare le spalle al mare."},
+      {type:"success", title:"💡 Bonus Klausturhof", text:"Siete nel centro villaggio: 2 min alla Systrafoss, 15 min al Kirkjugólf. Tutto illuminato dal sole di mezzanotte."},
+      {type:"warn", title:"⛽ Benzina", text:"Prima di andare a letto, pieno alla N1 Klaustur (200m dall'hotel). Domani zone remote."}
+    ]
+  },
+  {
+    n:4, date:"Sab 18 luglio", title:"Ghiacciai + Costa Sud Est ★★★", route:"Klaustur → Höfn", stats:"~200 km · 3h guida",
+    hotel: 3,
+    timeline: [
+      ["08:30", "Partenza da Klaustur"],
+      ["09:30", `🌋 <a class="mp" href="${M('Skaftafell Visitor Center')}">Skaftafell</a> (parcheggio ~1.000 ISK)`],
+      ["10:00", `🥾 Hike <a class="mp" href="${M('Svartifoss Iceland')}">Svartifoss</a> · 3.7 km · 1h30 · colonne basaltiche esagonali`],
+      ["12:30", "Pranzo al sacco o Skaftafell Bistro"],
+      ["13:30", `🧊 <a class="mp" href="${M('Jokulsarlon Glacier Lagoon')}">Jökulsárlón</a>: iceberg + foche`],
+      ["15:00", `💎 <a class="mp" href="${M('Diamond Beach Iceland Breidamerkursandur')}">Diamond Beach</a>: iceberg su sabbia nera`],
+      ["17:30", `🏔️ <a class="mp" href="${M('Stokksnes Iceland')}">Stokksnes/Vestrahorn</a>: 1.000 ISK · ghiaia OK`],
+      ["19:30", "Check-in Hvammur"],
+      ["20:30", `🦞 Cena aragoste <a class="mp" href="${M('Pakkhus Restaurant Hofn')}">Pakkhús</a> (consigliato)`],
+      ["22:30", `Opz: <a class="mp" href="${M('Sundlaug Hafnar Hofn')}">Sundlaug Hafnar</a> €10pp`]
+    ],
+    boxes: [ {type:"gold", title:"🦞 Höfn = capitale aragosta", text:"'Höfn' si pronuncia 'höp'. Humar = langoustine islandese. Pakkhús ha la migliore humar tail soup."} ]
+  },
+  {
+    n:5, date:"Dom 19 luglio", title:"East Fjords · Slow day", route:"Höfn → Egilsstaðir", stats:"~250 km · 4h guida",
+    hotel: 4,
+    timeline: [
+      ["08:30", "Partenza Höfn + colazione"],
+      ["09:30", `Opz: <a class="mp" href="${M('Hvalnes Lighthouse Iceland')}">Hvalnes Lighthouse</a>`],
+      ["10:00", "Drive scenico East Fjords"],
+      ["13:00", `Pranzo <a class="mp" href="${M('Faskrudsfjordur Iceland')}">Fáskrúðsfjörður</a> (paese franco-islandese)`],
+      ["15:30", `🌈 <a class="mp" href="${M('Seydisfjordur Iceland')}">Seyðisfjörður</a>: strada arcobaleno + chiesa azzurra · 2h`],
+      ["18:30", `🛒 <a class="mp" href="${M('Bonus Egilsstadir')}">Bónus Egilsstaðir</a> (chiude 19:30!)`],
+      ["19:30", "Check-in Eiðar · cena cucina self-service"]
+    ],
+    boxes: [ {type:"success", title:"📸 Seyðisfjörður", text:"Foto al centro Norðurgata (arcobaleno) guardando la Bláa Kirkjan. Luce pomeriggio arriva di fianco, perfetta."} ]
+  },
+  {
+    n:6, date:"Lun 20 luglio", title:"Mývatn · terra di lava ★★★", route:"Egilsstaðir → Mývatn", stats:"~190 km · 3h guida",
+    hotel: 5,
+    timeline: [
+      ["08:30", "Partenza · direzione nord-ovest"],
+      ["10:30", `💦 <a class="mp" href="${M('Dettifoss West Iceland Route 862')}">Dettifoss</a> ★ Route 862 OVEST · più potente d'Europa`],
+      ["11:30", `💦 <a class="mp" href="${M('Selfoss waterfall Jokulsargljufur')}">Selfoss</a> (1km a monte)`],
+      ["13:45", `🌋 <a class="mp" href="${M('Hverir Namaskard Iceland')}">Hverir/Námaskarð</a>: mud pots + fumarole`],
+      ["14:45", `🍽️ Pranzo <a class="mp" href="${M('Vogafjos Cowshed Cafe Myvatn')}">Vogafjós Cowshed</a>: mangi guardando mucche`],
+      ["16:00", `🔥 <a class="mp" href="${M('Viti Crater Krafla Iceland')}">Krafla + Víti Crater</a>: lago azzurro`],
+      ["17:30", `🌑 <a class="mp" href="${M('Dimmuborgir Myvatn')}">Dimmuborgir</a>: set Game of Thrones`],
+      ["19:30", "Check-in Skútustaðir"],
+      ["21:00", `♨️ <a class="mp" href="${M('Myvatn Nature Baths')}">Mývatn Nature Baths</a> · 2h`]
+    ],
+    boxes: [ {type:"danger", title:"🚫 Dettifoss = SOLO Route 862", text:"La Route 864 (est) è vietata alla Suzuki. Sempre 862 → uscita 'Dettifoss West'."} ]
+  },
+  {
+    n:7, date:"Mar 21 luglio", title:"🐋 Whales + Tröllaskagi", route:"Mývatn → Dalvík", stats:"~230 km · 3h30 guida",
+    hotel: 6,
+    timeline: [
+      ["07:30", "Partenza (105 km a Húsavík)"],
+      ["08:30", `💦 <a class="mp" href="${M('Godafoss Iceland')}">Goðafoss</a>: cascata degli dei`],
+      ["09:30", `🐋 <a class="mp" href="${M('Husavik Whale Watching Harbour')}">Whale Watching Húsavík</a> (★ slot 9:30) · 3h`],
+      ["13:00", "Pranzo Húsavík: Naustið o Salka"],
+      ["14:30", `♨️ <a class="mp" href="${M('GeoSea Husavik')}">GeoSea</a>: acqua di mare geotermica · 2h`],
+      ["17:30", `📸 <a class="mp" href="${M('Akureyri Iceland')}">Akureyri</a>: semafori a cuore · <a class="mp" href="${M('Blaa Kannan Cafe Akureyri')}">Bláa Kannan</a>`],
+      ["18:30", `🛒 <a class="mp" href="${M('Bonus Akureyri')}">Bónus Akureyri</a> · benzina · carne BBQ`],
+      ["19:45", "Self check-in Höfði Cottages"],
+      ["20:30", "🍖 BBQ in patio + birra · tramonto 23:00"],
+      ["22:00", `Opz: <a class="mp" href="${M('Sundlaug Dalvikur Dalvik')}">Sundlaug Dalvíkur</a>`]
+    ],
+    boxes: [ {type:"gold", title:"🐋 Whale tip", text:"Imbarco 30 min prima. Vesti caldo sotto la tuta. Cappellino+guanti. Mal di mare? Pillola 30 min prima."} ]
+  },
+  {
+    n:8, date:"Mer 22 luglio", title:"Trasferimento Ovest ⚠️ long day", route:"Dalvík → Hlíð í Hörðudal", stats:"~310 km · 4h30 guida",
+    hotel: 7,
+    timeline: [
+      ["08:30", "Partenza · attraversi Akureyri (no stop)"],
+      ["10:30", `🐎 <a class="mp" href="${M('Glaumbaer Turf Farm Museum')}">Glaumbær Turf Farm</a>: tetti di torba erbosa (~€10pp)`],
+      ["12:00", `Pranzo <a class="mp" href="${M('Saudarkrokur Iceland')}">Sauðárkrókur</a>: Kaffi Krókur`],
+      ["15:00", `Pausa <a class="mp" href="${M('Blonduos Iceland')}">Blönduós</a>`],
+      ["18:00", `🛒 <a class="mp" href="${M('Kronan Budardalur')}">Krónan Búðardalur</a> (chiude 19:00!)`],
+      ["18:15", `⛽ <a class="mp" href="${M('N1 Budardalur')}">N1 Búðardalur</a> pieno`],
+      ["18:30", `Opz: ♨️ <a class="mp" href="${M('Gudrunarlaug Hot Spring Iceland')}">Guðrúnarlaug</a> gratis`],
+      ["19:30", "Check-in Ravencliff (keybox)"],
+      ["20:30", "Cena in cabina · pasta+vino"]
+    ],
+    boxes: [ {type:"warn", title:"⚠️ Guida lunga", text:"4h30 guida + 1h stop = 5h30 totali. Pause ogni 1.5h. Playlist pronta."} ]
+  },
+  {
+    n:9, date:"Gio 23 luglio", title:"Snæfellsnes ★★★", route:"Hlíð í Hörðudal → Hvalfjarðarsveit", stats:"~280 km · 5h guida",
+    hotel: 8,
+    timeline: [
+      ["07:45", "Partenza (~70 km a Stykkishólmur)"],
+      ["09:00", `⛵ <a class="mp" href="${M('Stykkisholmur Iceland')}">Stykkishólmur</a>: porto pittoresco · 45 min`],
+      ["10:15", `⛰️ <a class="mp" href="${M('Kirkjufellsfoss Grundarfjordur')}">Kirkjufell + Kirkjufellsfoss</a>: Game of Thrones · 1h`],
+      ["11:30", `🌋 <a class="mp" href="${M('Saxholl Crater Snaefellsnes')}">Saxhóll Crater</a>: vista 360°`],
+      ["12:15", `🏖️ <a class="mp" href="${M('Djupalonssandur Beach Iceland')}">Djúpalónssandur</a>: sassi neri + relitto`],
+      ["13:15", `Pranzo <a class="mp" href="${M('Hellnar Snaefellsnes')}">Hellnar</a>: Fjöruhúsið (zuppa pesce)`],
+      ["14:30", `🦅 <a class="mp" href="${M('Londrangar Snaefellsnes')}">Lóndrangar</a>: pinnacoli basaltici`],
+      ["15:00", "🚶 Hellnar→Arnarstapi cliff walk · 2.5 km · 1h30 ★"],
+      ["17:00", `⛪ <a class="mp" href="${M('Budakirkja Black Church')}">Búðakirkja</a>: chiesetta nera`],
+      ["17:45", `🦭 <a class="mp" href="${M('Ytri Tunga Beach seals')}">Ytri-Tunga</a>: foche · binocolo`],
+      ["21:00", "Check-in Glymur"],
+      ["21:30", `♨️ <a class="mp" href="${M('Hvammsvik Hot Springs')}">Hvammsvík</a> (★ prenotato · 5 min auto) · 2h`],
+      ["23:30", "Cena ristorante Glymur"]
+    ],
+    boxes: []
+  },
+  {
+    n:10, date:"Ven 24 luglio", title:"Glymur Hike + Reykjavik + Volo", route:"Hvalfjarðarsveit → Reykjavik → Keflavik", stats:"~140 km · 3h guida",
+    hotel: null,
+    timeline: [
+      ["06:45", "📞 Chiama reception per late check-out"],
+      ["07:30", "Drive Glymur trailhead Botnsdalur (25 min)"],
+      ["08:00", `🥾 <a class="mp" href="${M('Glymur Waterfall Trailhead Botnsdalur')}">Glymur Falls</a> · 7.5 km loop · 3.5h · ⚠️ fiume da guadare (sandali!)`],
+      ["12:00", "🚿 Doccia + bagagli + check-out"],
+      ["12:45", `🌊 <a class="mp" href="${M('Blue Lagoon Iceland')}">Blue Lagoon</a> (★ prenotato) · sulla strada per Keflavik · ~1h30`],
+      ["14:15", `⛽ <a class="mp" href="${M('N1 Reykjanesbraut Hafnarfjordur')}">N1 Reykjanesbraut</a> · <strong>conserva scontrino!</strong>`],
+      ["15:30", "Partenza per Keflavik (~20 min)"],
+      ["16:00", "🚗 Riconsegna FairCar Bogatröð"],
+      ["17:00", "🛒 Duty free: Skyr, Omnom, Brennivín"],
+      ["19:55", "✈️ Imbarco EJU3976"],
+      ["02:10", "🛬 Malpensa T2 · Casa!"]
+    ],
+    boxes: [
+      {type:"gold", title:"🏨 Last day", text:"No hotel stanotte, in volo. Late check-out 13:00 dal Glymur (chiama reception 6:45)."},
+      {type:"success", title:"🌊 Blue Lagoon", text:"La Blue Lagoon è sulla strada verso Keflavik (Grindavík). Porta il voucher, asciugamano, shampoo incluso. L'acqua è ~39° e ricca di silice: non bagnare i capelli se puoi."},
+      {type:"warn", title:"⚠️ Glymur zaino", text:"Acqua + snack, giacca antivento, sandali/ciabatte per fiume, asciugamano piccolo, scarpe trekking (no scarpe città)."}
+    ]
   }
+];
+
+// ============= NAVIGATION =============
+let currentInfoPage = null;
+
+function switchTab(tab, btn) {
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + tab).classList.add('active');
+  btn.classList.add('active');
+  document.getElementById('app-content').scrollTop = 0;
+  // Reset info page state
+  if (tab !== 'info') {
+    closeInfoPage();
+  } else {
+    if (currentInfoPage) showInfoPageInternal(currentInfoPage);
+    else updateHeader('Info');
+  }
+  const titles = { home:'Islanda 2026', days:'Itinerario', hotels:'Hotel', info:'Info', audio:'Audioguida', sos:'Emergenza' };
+  updateHeader(titles[tab]);
+}
+
+function updateHeader(title, showBack) {
+  document.getElementById('header-title').textContent = title;
+  document.getElementById('header-back').classList.toggle('visible', !!showBack);
+}
+
+function goBack() {
+  closeInfoPage();
+  updateHeader('Info');
+}
+
+// ============= HOME (DASHBOARD) =============
+function renderHome() {
+  const today = new Date();
+  const tripStart = new Date(2026, 6, 15); // 15 luglio 2026
+  const tripEnd = new Date(2026, 6, 24);
+  const dayIdx = Math.floor((today - tripStart) / (1000*60*60*24)) + 1;
+  const daysUntil = Math.ceil((tripStart - today) / (1000*60*60*24));
+
+  let html = '';
+
+  // Hero
+  html += `<div class="card-hero">
+    <div class="card-hero-flag">🇮🇸</div>
+    <h1>Islanda 2026</h1>
+    <div class="card-hero-subtitle">Mina &amp; Ferruccio · 10 giorni</div>
+    <div class="card-hero-grid">
+      <div class="card-hero-stat"><div class="card-hero-stat-label">Date</div><div class="card-hero-stat-value">15 → 24 lug</div></div>
+      <div class="card-hero-stat"><div class="card-hero-stat-label">Distanza</div><div class="card-hero-stat-value">~1.800 km</div></div>
+    </div>
+  </div>`;
+
+  if (dayIdx >= 1 && dayIdx <= 10) {
+    // DURING TRIP
+    const day = DAYS[dayIdx - 1];
+    const hotel = day.hotel !== null ? HOTELS[day.hotel] : null;
+    html += `<div class="card">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
+        <div>
+          <div style="font-size:11px;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px;font-weight:700;">GIORNO ${day.n} DI 10</div>
+          <div style="font-size:20px;font-weight:700;letter-spacing:-0.3px;margin-top:2px;">${day.title}</div>
+        </div>
+        <span class="today-pill">Oggi</span>
+      </div>
+      <div style="color:var(--text-muted);font-size:13px;">${day.route} · ${day.stats}</div>
+      <button class="btn btn-primary btn-block btn-large mt-1" onclick="switchTab('days', document.querySelectorAll('.tab-btn')[1]); setTimeout(()=>openDay(${day.n}),100);">Vedi programma →</button>
+    </div>`;
+
+    if (hotel) {
+      html += `<div class="list-header">Stanotte dormite qui</div>
+        <div class="hotel-card">
+          <div class="hotel-card-top">
+            <div class="hotel-card-num">${hotel.n}</div>
+            <div class="hotel-card-title">
+              <div class="hotel-card-name">${hotel.name}</div>
+              <div class="hotel-card-dates">${hotel.loc}</div>
+            </div>
+            ${hotel.rating ? `<div class="hotel-card-rating">${hotel.rating}</div>` : ''}
+          </div>
+          <div class="hotel-card-actions">
+            <a class="btn btn-map" href="${M(hotel.mapQuery)}">📍 Mappa</a>
+            ${hotel.phone ? `<a class="btn btn-success solid" href="tel:${hotel.phone}">📞 Chiama</a>` : ''}
+          </div>
+        </div>`;
+    }
+  } else if (daysUntil > 0) {
+    // BEFORE TRIP
+    html += `<div class="card center">
+      <div style="font-size:11px;color:var(--text-muted);text-transform:uppercase;letter-spacing:1.5px;font-weight:700;">MANCANO</div>
+      <div style="font-size:56px;font-weight:800;color:var(--brand);letter-spacing:-2px;line-height:1;margin:6px 0;">${daysUntil}</div>
+      <div style="font-size:15px;color:var(--text-secondary);">giorni alla partenza</div>
+    </div>`;
+  } else {
+    // AFTER TRIP
+    html += `<div class="card center">
+      <div style="font-size:20px;font-weight:700;margin:8px 0;">Bentornati! 🇮🇹</div>
+      <p>Il viaggio è finito ma la guida resta qui.</p>
+    </div>`;
+  }
+
+  // Quick actions
+  html += `<div class="list-header">Accesso rapido</div>
+    <div class="list-group">
+      <a class="list-item" href="https://vedur.is" target="_blank"><span class="icon">🌦️</span><span class="label">Meteo Islanda</span><span class="value">vedur.is</span><span class="chevron"></span></a>
+      <a class="list-item" href="https://safetravel.is" target="_blank"><span class="icon">🚧</span><span class="label">Condizioni strade</span><span class="value">safetravel.is</span><span class="chevron"></span></a>
+      <button class="list-item" onclick="switchTab('sos',document.querySelectorAll('.tab-btn')[4])"><span class="icon">🚨</span><span class="label">Emergenza</span><span class="chevron"></span></button>
+    </div>`;
+
+  // Budget snapshot
+  html += `<div class="list-header">Budget</div>
+    <div class="budget-total">
+      <div class="lbl">Costo totale stimato</div>
+      <div class="val">€5.595</div>
+      <div class="sub">~€2.798 a persona</div>
+    </div>`;
+
+  document.getElementById('home-content').innerHTML = html;
+}
+
+// ============= DAYS =============
+function openDay(n) {
+  const cards = document.querySelectorAll('.day-card');
+  cards.forEach(c => {
+    if (c.dataset.n === String(n)) c.classList.add('open');
+    else c.classList.remove('open');
+  });
+  const target = document.querySelector(`.day-card[data-n="${n}"]`);
+  if (target) {
+    setTimeout(() => target.scrollIntoView({ behavior:'smooth', block:'start' }), 100);
+  }
+}
+
+function renderDays() {
+  const today = new Date();
+  const tripStart = new Date(2026, 6, 15);
+  const dayIdx = Math.floor((today - tripStart) / (1000*60*60*24)) + 1;
+
+  // Calendar strip
+  let stripHtml = '';
+  for (let i = 1; i <= 10; i++) {
+    const d = 14 + i;
+    let cls = '';
+    if (dayIdx > i) cls = 'past';
+    if (dayIdx === i) cls = 'today';
+    stripHtml += `<button class="cal-day ${cls}" onclick="openDay(${i})"><span class="cal-num">${d}</span></button>`;
+  }
+  document.getElementById('calendar-strip').innerHTML = stripHtml;
+
+  // Days list
+  let html = '';
+  DAYS.forEach(day => {
+    const isToday = dayIdx === day.n;
+    const hotel = day.hotel !== null ? HOTELS[day.hotel] : null;
+    const hotelBlock = hotel ? `
+      <div class="hotel-card" style="margin-top:12px;">
+        <div class="hotel-card-top">
+          <div class="hotel-card-num">${hotel.n}</div>
+          <div class="hotel-card-title">
+            <div class="hotel-card-name">${hotel.name}</div>
+            <div class="hotel-card-dates">${hotel.loc} · ${hotel.price}</div>
+          </div>
+          ${hotel.rating ? `<div class="hotel-card-rating">${hotel.rating}</div>` : ''}
+        </div>
+        <div class="hotel-card-meta">${hotel.meta}</div>
+        <div class="hotel-card-actions">
+          <a class="btn btn-map" href="${M(hotel.mapQuery)}">📍 Mappa</a>
+          ${hotel.phone ? `<a class="btn btn-success" href="tel:${hotel.phone}">📞 ${hotel.phoneDisplay}</a>` : ''}
+          ${hotel.web ? `<a class="btn" href="https://${hotel.web}" target="_blank">🌐 Sito</a>` : ''}
+        </div>
+      </div>` : '';
+
+    const timeline = day.timeline.map(([t, c]) => `<li><span class="timeline-time">${t}</span><span>${c}</span></li>`).join('');
+    const boxes = day.boxes.map(b => `<div class="box ${b.type}"><div class="box-title">${b.title}</div>${b.text}</div>`).join('');
+
+    html += `<div class="day-card ${isToday ? 'today' : ''}" data-n="${day.n}">
+      <button class="day-card-summary" onclick="const c=this.parentElement; c.classList.toggle('open');">
+        <div class="day-num-badge">${String(day.n).padStart(2,'0')}</div>
+        <div class="day-info">
+          <div class="day-info-title">${day.title} ${isToday ? '<span class="today-pill" style="margin-left:6px;">Oggi</span>' : ''}</div>
+          <div class="day-info-meta">${day.date} · ${day.stats}</div>
+        </div>
+        <span class="day-chevron">›</span>
+      </button>
+      <div class="day-card-body">
+        ${hotelBlock}
+        <h3 style="margin:14px 0 6px 0;">📋 Programma</h3>
+        <ul class="timeline">${timeline}</ul>
+        ${boxes}
+      </div>
+    </div>`;
+  });
+  document.getElementById('days-list').innerHTML = html;
+
+  // Auto-open today's card
+  if (dayIdx >= 1 && dayIdx <= 10) {
+    setTimeout(() => openDay(dayIdx), 50);
+  }
+}
+
+// ============= HOTELS =============
+function renderHotels() {
+  const html = HOTELS.map(h => `
+    <div class="hotel-card">
+      <div class="hotel-card-top">
+        <div class="hotel-card-num">${h.n}</div>
+        <div class="hotel-card-title">
+          <div class="hotel-card-name">${h.name}</div>
+          <div class="hotel-card-dates">${h.dates} · ${h.loc} · ${h.price}</div>
+        </div>
+        ${h.rating ? `<div class="hotel-card-rating">${h.rating}</div>` : ''}
+      </div>
+      <div class="hotel-card-meta">${h.meta}</div>
+      <div style="font-size:12px;color:var(--text-muted);margin-bottom:10px;">📍 ${h.addr}</div>
+      <div class="hotel-card-actions">
+        <a class="btn btn-map" href="${M(h.mapQuery)}">📍 Mappa</a>
+        ${h.phone ? `<a class="btn btn-success" href="tel:${h.phone}">📞 ${h.phoneDisplay}</a>` : ''}
+        ${h.web ? `<a class="btn" href="https://${h.web}" target="_blank">🌐 Sito</a>` : ''}
+      </div>
+    </div>`).join('');
+  document.getElementById('hotels-list').innerHTML = html;
+}
+
+// ============= SOS =============
+function renderSOS() {
+  const today = new Date();
+  const tripStart = new Date(2026, 6, 15);
+  const dayIdx = Math.floor((today - tripStart) / (1000*60*60*24)) + 1;
+  const todayHotel = (dayIdx >= 1 && dayIdx <= 9) ? HOTELS[DAYS[dayIdx-1].hotel] : null;
+
+  let html = `
+    <button class="sos-btn-huge" onclick="if(confirm('Chiamare il 112 · Emergenze Islanda?')) window.location.href='tel:112';">🚨 CHIAMA 112</button>
+    <p class="small muted center mb-0" style="margin-bottom:16px;">Polizia · Ambulanza · Vigili · Soccorso alpino</p>`;
+
+  if (todayHotel && todayHotel.phone) {
+    html += `<div class="list-header">Hotel di stanotte</div>
+      <div class="list-group">
+        <div class="phone-row">
+          <div class="phone-info">
+            <div class="phone-name">${todayHotel.name}</div>
+            <div class="phone-desc">${todayHotel.loc}</div>
+          </div>
+          <a class="call-btn" href="tel:${todayHotel.phone}">📞</a>
+        </div>
+      </div>`;
+  }
+
+  html += `<div class="list-header">Contatti ufficiali</div>
+    <div class="list-group">
+      <div class="phone-row">
+        <div class="phone-info">
+          <div class="phone-name">Console Onorario Italia</div>
+          <div class="phone-desc">Reykjavik · Túngata 14</div>
+        </div>
+        <a class="call-btn" href="tel:+3545528855">📞</a>
+      </div>
+      <div class="phone-row">
+        <div class="phone-info">
+          <div class="phone-name">Ambasciata Italiana Oslo</div>
+          <div class="phone-desc">Competente per Islanda</div>
+        </div>
+        <a class="call-btn" href="tel:+4723084900">📞</a>
+      </div>
+      <div class="phone-row">
+        <div class="phone-info">
+          <div class="phone-name">Landspítali</div>
+          <div class="phone-desc">Ospedale principale Reykjavik</div>
+        </div>
+        <a class="call-btn" href="tel:+3545431000">📞</a>
+      </div>
+    </div>`;
+
+  html += `<div class="list-header">Blocco carte (Italia, 24/7)</div>
+    <div class="list-group">
+      <div class="phone-row">
+        <div class="phone-info">
+          <div class="phone-name">Visa/Mastercard CartaSi</div>
+        </div>
+        <a class="call-btn" href="tel:+390234980020">📞</a>
+      </div>
+      <div class="phone-row">
+        <div class="phone-info">
+          <div class="phone-name">American Express</div>
+        </div>
+        <a class="call-btn" href="tel:+390672280371">📞</a>
+      </div>
+    </div>`;
+
+  html += `<div class="list-header">Tutti gli hotel</div>
+    <div class="list-group">
+      ${HOTELS.filter(h => h.phone).map(h => `
+        <div class="phone-row">
+          <div class="phone-info">
+            <div class="phone-name">${h.name}</div>
+            <div class="phone-desc">Notte ${h.n} · ${h.loc}</div>
+          </div>
+          <a class="call-btn" href="tel:${h.phone}">📞</a>
+        </div>`).join('')}
+    </div>`;
+
+  html += `<div class="box warn" style="margin-top:16px;">
+    <div class="box-title">⚠️ Ricorda</div>
+    Il 112 funziona anche senza credito SIM. Operatori parlano inglese fluente. In auto, mai lasciarla senza avvisare (F-roads = assicurazione annullata).
+  </div>`;
+
+  document.getElementById('sos-content').innerHTML = html;
+}
+
+// ============= INFO PAGES =============
+const INFO_PAGES = {
+  'voli': {
+    title: 'Voli',
+    html: `
+    <div class="card">
+      <h3>🛫 Andata · Mer 15 luglio</h3>
+      <p><strong>EJU3969</strong><br>Malpensa T2 <strong>07:30</strong> → Keflavik <strong>09:55</strong></p>
+      <p class="small muted mb-0">Durata 4h 25min · Consegna bagagli T2 chiude 06:30</p>
+    </div>
+    <div class="card">
+      <h3>🛬 Ritorno · Ven 24 → Sab 25 luglio</h3>
+      <p><strong>EJU3976</strong><br>Keflavik <strong>19:55</strong> → Malpensa T2 <strong>02:10</strong></p>
+      <p class="small muted mb-0">Durata 4h 15min · Check-in bagagli chiude 19:15</p>
+    </div>
+    <div class="box warn"><div class="box-title">⚠️ Ricordi</div>Check-in online apre 30gg prima. Documento: carta d'identità o passaporto valido. Il volo del 24 lug atterra alle 02:10 di notte.</div>`
+  },
+  'auto': {
+    title: 'Auto FairCar',
+    html: `
+    <div class="card">
+      <h3>Prenotazione</h3>
+      <p><strong>Suzuki SX4 S-Cross</strong> · Compact Crossover<br>
+      Ritiro: mer 15 lug ore <strong>10:30</strong><br>
+      Riconsegna: ven 24 lug ore <strong>17:00</strong><br>
+      <a class="mp" href="${M('Bogatrod 1 Keflavik Iceland')}">Bogatröð 1, Keflavik</a></p>
+      <p class="small muted mb-0">€644,48 pagato · km illimitati · RCA+kasko</p>
+    </div>
+    <div class="box danger"><div class="box-title">🚫 F-roads VIETATE</div>La Suzuki NON è vero 4×4. Prefisso F (F35, F208...) = highland roads. Entrarci annulla assicurazione. OK asfalto (Ring Road) e ghiaia leggera (Stokksnes, Reynisfjara).</div>
+    <div class="box warn"><div class="box-title">⚠️ Al ritiro portare</div>Patente Ferruccio · <strong>Carta di credito FISICA intestata Ferruccio</strong> (Visa/Mastercard, NO Revolut/Maestro/Amex) · Voucher · CI/passaporto</div>`
+  },
+  'guida-auto': {
+    title: 'Guida in Islanda',
+    html: `
+    <div class="box"><div class="box-title">Limiti velocità</div>50 città · 80 ghiaia · 90 asfalto · Fari sempre accesi (per legge, anche giorno)</div>
+    <div class="box danger"><div class="box-title">🚫 F-roads = VIETATE</div>Prefisso F (F35, F208, F26). Solo veri 4×4 autorizzati. Assicurazione annullata.</div>
+    <div class="box warn"><div class="box-title">🌬️ Vento &amp; portiere</div>Il vento può strappare la portiera. Danno NON coperto (~€1.500-3.000). Apri sempre con due mani. Parcheggia contro-vento.</div>
+    <div class="box warn"><div class="box-title">🐑 Pecore in strada</div>Pascolo libero mag-set. Rallenta sempre. Se investi: 112 + proprietario (numero sul collare).</div>
+    <div class="box"><div class="box-title">🌊 Onde sneaker</div>Spiagge sud (Reynisfjara): onde improvvise trascinano in mare. Mai entro 30m dall'acqua. Mai dare le spalle al mare.</div>
+    <div class="box"><div class="box-title">⛽ Stazioni</div>N1 (più diffusa), Olís, Orkan. Fai pieno quando puoi. Pagamento sempre con carta+PIN (no firma).</div>
+    <div class="box"><div class="box-title">🅿️ Parcheggi a pagamento</div>Parchi nazionali (Þingvellir, Skaftafell). App <strong>Parka</strong>. Tariffe €5-10.</div>
+    <div class="box"><div class="box-title">🚇 Tunnel a pedaggio</div>Vaðlaheiðargöng (Akureyri) ~€10. Paga entro 24h su <a href="https://tunnel.is" target="_blank">tunnel.is</a> con targa.</div>
+    <div class="box danger"><div class="box-title">🚫 Alcol = ZERO</div>Limite 0,5‰ (zero). Multa min €600 + ritiro patente.</div>`
+  },
+  'valigia': {
+    title: 'Valigia',
+    html: `
+    <p class="section-subtitle">Le check restano salvate sul dispositivo</p>
+    <div class="list-header">👕 Vestiti (per persona)</div>
+    <div class="list-group" style="padding:0 16px;">
+      <ul class="checklist" data-cl="clothes">
+        <li data-item="c1"><input type="checkbox"><span>4 magliette termiche manica lunga</span></li>
+        <li data-item="c2"><input type="checkbox"><span>2 magliette manica corta</span></li>
+        <li data-item="c3"><input type="checkbox"><span>2 pile (leggero + pesante)</span></li>
+        <li data-item="c4"><input type="checkbox"><span>1 giacca antivento + impermeabile ★</span></li>
+        <li data-item="c5"><input type="checkbox"><span>1 piumino leggero comprimibile</span></li>
+        <li data-item="c6"><input type="checkbox"><span>2 pantaloni trekking impermeabili</span></li>
+        <li data-item="c7"><input type="checkbox"><span>1 jeans + 1 leggings termico</span></li>
+        <li data-item="c8"><input type="checkbox"><span>Rain pants (se pioggia prevista)</span></li>
+        <li data-item="c9"><input type="checkbox"><span>Mutande × 7-10, calze trekking × 5</span></li>
+        <li data-item="c10"><input type="checkbox"><span>Scarponi trekking impermeabili ★</span></li>
+        <li data-item="c11"><input type="checkbox"><span>Sneakers comode</span></li>
+        <li data-item="c12"><input type="checkbox"><span>Sandali/ciabatte (hot springs, fiume Glymur)</span></li>
+        <li data-item="c13"><input type="checkbox"><span>Cappello + sciarpa + guanti leggeri</span></li>
+        <li data-item="c14"><input type="checkbox"><span>Occhiali da sole</span></li>
+        <li data-item="c15"><input type="checkbox"><span>Costume × 2 + asciugamani microfibra × 2 ★</span></li>
+      </ul>
+    </div>
+    <div class="list-header">🔌 Tech</div>
+    <div class="list-group" style="padding:0 16px;">
+      <ul class="checklist" data-cl="tech">
+        <li data-item="t1"><input type="checkbox"><span>Caricatore telefono + cavi (no adattatore, spina F)</span></li>
+        <li data-item="t2"><input type="checkbox"><span>Power bank 10.000+ mAh ★</span></li>
+        <li data-item="t3"><input type="checkbox"><span>Macchina foto + batterie + SD</span></li>
+        <li data-item="t4"><input type="checkbox"><span>Auricolari</span></li>
+        <li data-item="t5"><input type="checkbox"><span>Supporto telefono auto + cavo USB</span></li>
+        <li data-item="t6"><input type="checkbox"><span>🌑 Maschera dormire ★ ESSENZIALE</span></li>
+        <li data-item="t7"><input type="checkbox"><span>Tappi orecchie</span></li>
+        <li data-item="t8"><input type="checkbox"><span>Borraccia × 2</span></li>
+        <li data-item="t9"><input type="checkbox"><span>Zainetto 20-25L</span></li>
+        <li data-item="t10"><input type="checkbox"><span>Sacchetti impermeabili/dry bags</span></li>
+        <li data-item="t11"><input type="checkbox"><span>Binocolo (puffins, foche, balene)</span></li>
+      </ul>
+    </div>
+    <div class="list-header">💊 Salute &amp; documenti</div>
+    <div class="list-group" style="padding:0 16px;">
+      <ul class="checklist" data-cl="health">
+        <li data-item="h1"><input type="checkbox"><span>Tessera Sanitaria TEAM</span></li>
+        <li data-item="h2"><input type="checkbox"><span>Farmaci personali + ricette</span></li>
+        <li data-item="h3"><input type="checkbox"><span>Ibuprofene, paracetamolo, cerotti</span></li>
+        <li data-item="h4"><input type="checkbox"><span>Crema solare SPF 30+ ★</span></li>
+        <li data-item="h5"><input type="checkbox"><span>Burrocacao ★</span></li>
+        <li data-item="h6"><input type="checkbox"><span>Repellente moscerini Mývatn ★</span></li>
+        <li data-item="h7"><input type="checkbox"><span>Pillola mal di mare</span></li>
+        <li data-item="h8"><input type="checkbox"><span>Carta d'identità o passaporto</span></li>
+        <li data-item="h9"><input type="checkbox"><span>Patente Ferruccio</span></li>
+        <li data-item="h10"><input type="checkbox"><span>Carta credito FISICA Ferruccio ★</span></li>
+        <li data-item="h11"><input type="checkbox"><span>Voucher Booking + FairCar + voli</span></li>
+      </ul>
+    </div>`
+  },
+  'budget': {
+    title: 'Budget',
+    html: `
+    <div class="card">
+      <h3>Pre-pagato</h3>
+      <div class="table-wrap"><table>
+        <tr><td>Voli EasyJet</td><td style="text-align:right;font-weight:600;">€143,00</td></tr>
+        <tr><td>Auto FairCar</td><td style="text-align:right;font-weight:600;">€644,48</td></tr>
+        <tr><td>9 hotel</td><td style="text-align:right;font-weight:600;">—</td></tr>
+      </table></div>
+    </div>
+    <div class="card">
+      <h3>Stimato in loco</h3>
+      <div class="table-wrap"><table>
+        <tr><td>Carburante</td><td style="text-align:right;">€280</td></tr>
+        <tr><td>Whale + terme + ristoranti chiave</td><td style="text-align:right;">€740</td></tr>
+        <tr><td>Pranzi + cene + spesa</td><td style="text-align:right;">€1.050</td></tr>
+        <tr><td>Ingressi + parcheggi</td><td style="text-align:right;">€100</td></tr>
+        <tr><td>Souvenir + Lopapeysa</td><td style="text-align:right;">€350</td></tr>
+        <tr><td>Assicurazione + SIM + buffer</td><td style="text-align:right;">€210</td></tr>
+        <tr style="background:var(--brand);color:white;"><td style="color:white;"><strong>Totale in loco</strong></td><td style="text-align:right;color:white;font-weight:700;">€2.730</td></tr>
+      </table></div>
+    </div>
+    <div class="budget-total">
+      <div class="lbl">Totale viaggio</div>
+      <div class="val">€5.595</div>
+      <div class="sub">~€2.798 a persona</div>
+    </div>
+    <div class="box success"><div class="box-title">💡 Come risparmiare</div>Bónus per la spesa · acqua rubinetto · pranzi al sacco · hot spring gratis · duty free per l'alcol</div>`
+  },
+  'phrasebook': {
+    title: 'Islandese',
+    html: `
+    <div class="card">
+      <h3>Cortesia</h3>
+      <div class="table-wrap"><table>
+        <tr><th>Italiano</th><th>Islandese</th></tr>
+        <tr><td>Ciao</td><td>Halló</td></tr>
+        <tr><td>Grazie</td><td>Takk</td></tr>
+        <tr><td>Grazie mille</td><td>Takk fyrir</td></tr>
+        <tr><td>Prego</td><td>Gjörðu svo vel</td></tr>
+        <tr><td>Sì / No</td><td>Já / Nei</td></tr>
+        <tr><td>Salute (brindisi)</td><td>Skál!</td></tr>
+        <tr><td>Buon viaggio</td><td>Góða ferð</td></tr>
+      </table></div>
+    </div>
+    <div class="card">
+      <h3>Utili</h3>
+      <div class="table-wrap"><table>
+        <tr><td>Parla inglese?</td><td>Talar þú ensku?</td></tr>
+        <tr><td>Non capisco</td><td>Ég skil ekki</td></tr>
+        <tr><td>Quanto costa?</td><td>Hvað kostar þetta?</td></tr>
+        <tr><td>Aiuto!</td><td>Hjálp!</td></tr>
+        <tr><td>Conto per favore</td><td>Reikninginn, takk</td></tr>
+      </table></div>
+    </div>
+    <div class="card">
+      <h3>Geografia (nomi luoghi)</h3>
+      <div class="table-wrap"><table>
+        <tr><td>foss</td><td>cascata</td></tr>
+        <tr><td>jökull</td><td>ghiacciaio</td></tr>
+        <tr><td>fjörður</td><td>fiordo</td></tr>
+        <tr><td>kirkja</td><td>chiesa</td></tr>
+        <tr><td>laug</td><td>terma/piscina</td></tr>
+        <tr><td>fjall</td><td>montagna</td></tr>
+        <tr><td>höfn</td><td>porto</td></tr>
+      </table></div>
+    </div>`
+  },
+  'cibo': {
+    title: 'Cibo &amp; shopping',
+    html: `
+    <div class="card">
+      <h3>🍴 Piatti da provare</h3>
+      <div class="table-wrap"><table>
+        <tr><th>Piatto</th><th>Cos'è</th></tr>
+        <tr><td><strong>Skyr</strong></td><td>Yogurt denso proteico</td></tr>
+        <tr><td><strong>Pylsur</strong></td><td>Hot dog agnello</td></tr>
+        <tr><td><strong>Plokkfiskur</strong></td><td>Stufato pesce cremoso</td></tr>
+        <tr><td><strong>Humar</strong></td><td>Langoustine (Höfn)</td></tr>
+        <tr><td><strong>Kjötsúpa</strong></td><td>Zuppa agnello</td></tr>
+        <tr><td><strong>Hverabrauð</strong></td><td>Pane cotto sotto terra (Vogafjós)</td></tr>
+        <tr><td><strong>Trota affumicata</strong></td><td>Colazione Skútustaðir</td></tr>
+        <tr><td><strong>Lamb</strong></td><td>Agnello pascolo libero</td></tr>
+      </table></div>
+    </div>
+    <div class="card">
+      <h3>🛒 Spesa</h3>
+      <p><strong>Bónus</strong> 🐷 (maialino giallo) = più economico ★<br>
+      <strong>Krónan</strong> = simile · <strong>Nettó</strong> = 24/7 più caro · <strong>10-11</strong> = ❌ evita</p>
+      <p class="small muted mb-0">Bónus chiude 19:30 lun-sab, 18:00 domenica.</p>
+    </div>
+    <div class="card">
+      <h3>🎁 Souvenir</h3>
+      <ul style="margin:4px 0 0 0;">
+        <li><strong>Lopapeysa</strong> €120-180 · Handknitting Association</li>
+        <li><strong>Cioccolato Omnom</strong> €8-15</li>
+        <li><strong>Sale di lava nera</strong> €10-15 · duty free</li>
+        <li><strong>Brennivín</strong> €20 · SOLO duty free</li>
+        <li><strong>Skyr cake mix</strong> €8 · duty free</li>
+      </ul>
+    </div>`
+  },
+  'app': {
+    title: 'App utili',
+    html: `
+    <div class="card">
+      <h3>🚨 112 Iceland</h3>
+      <p class="small mb-0">Search &amp; Rescue ufficiale. Check-in GPS prima di hike. Gratuita.</p>
+    </div>
+    <div class="card">
+      <h3>🛣️ SafeTravel.is</h3>
+      <p class="small mb-0">Condizioni stradali real-time + alert meteo. <a href="https://safetravel.is" target="_blank">safetravel.is</a></p>
+    </div>
+    <div class="card">
+      <h3>🌧️ Veður</h3>
+      <p class="small mb-0">Meteo ufficiale. Vento (★ critico). <a href="https://vedur.is" target="_blank">vedur.is</a></p>
+    </div>
+    <div class="card">
+      <h3>🅿️ Parka</h3>
+      <p class="small mb-0">Pagamento parcheggi (Þingvellir, Skaftafell). ★ Scarica prima.</p>
+    </div>
+    <div class="card">
+      <h3>🗺️ Google Maps offline ★</h3>
+      <p class="small mb-0">ESSENZIALE: scarica mappa Islanda intera prima di partire (settings→mappe offline). Molta Ring Road senza dati.</p>
+    </div>
+    <div class="box gold">
+      <div class="box-title">📱 SIM o roaming?</div>
+      Islanda è in area UE roaming. Usa piano italiano. Alternativa: eSIM Holafly €30 illimitati.
+    </div>`
+  },
+  'pre-partenza': {
+    title: 'Pre-partenza',
+    html: `
+    <p class="section-subtitle">Le check restano salvate sul dispositivo</p>
+    <div class="list-header">📅 1 settimana prima</div>
+    <div class="list-group" style="padding:0 16px;">
+      <ul class="checklist" data-cl="week">
+        <li data-item="w1"><input type="checkbox"><span>Check-in online EasyJet + carte imbarco su telefono</span></li>
+        <li data-item="w2"><input type="checkbox"><span>Verificare conferme hotel</span></li>
+        <li data-item="w3"><input type="checkbox"><span>Stampare voucher chiave + backup PDF</span></li>
+        <li data-item="w4"><input type="checkbox"><span>Scaricare app: 112 · Parka · Google Maps offline</span></li>
+        <li data-item="w5"><input type="checkbox"><span>Scaricare playlist + podcast</span></li>
+        <li data-item="w6"><input type="checkbox"><span>Verificare roaming UE funzioni</span></li>
+      </ul>
+    </div>
+    <div class="list-header">📅 2-3 giorni prima</div>
+    <div class="list-group" style="padding:0 16px;">
+      <ul class="checklist" data-cl="days-before">
+        <li data-item="d1"><input type="checkbox"><span>Meteo Islanda (vedur.is)</span></li>
+        <li data-item="d2"><input type="checkbox"><span>Condizioni stradali (safetravel.is)</span></li>
+        <li data-item="d3"><input type="checkbox"><span>Salvare contatti emergenza in rubrica</span></li>
+        <li data-item="d4"><input type="checkbox"><span>Leggere mail FairCar (2gg prima)</span></li>
+        <li data-item="d5"><input type="checkbox"><span>Caricare cellulari, power bank</span></li>
+        <li data-item="d6"><input type="checkbox"><span>Pesare valigia (stiva 23kg, mano 15kg)</span></li>
+      </ul>
+    </div>
+    <div class="list-header">🌅 Mattina Mer 15 lug</div>
+    <div class="list-group" style="padding:0 16px;">
+      <ul class="checklist" data-cl="departure">
+        <li data-item="p1"><input type="checkbox"><span>04:00 sveglia · doccia · colazione</span></li>
+        <li data-item="p2"><input type="checkbox"><span>04:45 partenza per Malpensa</span></li>
+        <li data-item="p3"><input type="checkbox"><span>05:30 arrivo T2 (check-in chiude 06:30)</span></li>
+        <li data-item="p4"><input type="checkbox"><span>07:30 imbarco EJU3969</span></li>
+        <li data-item="p5"><input type="checkbox"><span>✈️ Góða ferð!</span></li>
+      </ul>
+    </div>`
+  }
+};
+
+function openInfoPage(key) {
+  currentInfoPage = key;
+  showInfoPageInternal(key);
+}
+
+function showInfoPageInternal(key) {
+  const page = INFO_PAGES[key];
+  if (!page) return;
+  document.getElementById('info-menu').style.display = 'none';
+  document.getElementById('info-page-container').innerHTML = `<div class="section-title large">${page.title}</div>${page.html}`;
+  updateHeader(page.title, true);
+  document.getElementById('app-content').scrollTop = 0;
+  initChecklists();
+}
+
+function closeInfoPage() {
+  currentInfoPage = null;
+  document.getElementById('info-menu').style.display = '';
+  document.getElementById('info-page-container').innerHTML = '';
+}
+
+// ============= CHECKLISTS =============
+function initChecklists() {
+  document.querySelectorAll('.checklist').forEach(list => {
+    const key = 'iceland_' + list.dataset.cl;
+    let state = {};
+    try { state = JSON.parse(localStorage.getItem(key) || '{}'); } catch(e) {}
+    list.querySelectorAll('li[data-item]').forEach(li => {
+      const cb = li.querySelector('input[type="checkbox"]');
+      const id = li.dataset.item;
+      if (state[id]) { cb.checked = true; li.classList.add('done'); }
+      const handler = (e) => {
+        if (e.target.tagName !== 'INPUT') cb.checked = !cb.checked;
+        state[id] = cb.checked;
+        li.classList.toggle('done', cb.checked);
+        try { localStorage.setItem(key, JSON.stringify(state)); } catch(e) {}
+      };
+      // remove old listeners by cloning
+      const clone = li.cloneNode(true);
+      li.parentNode.replaceChild(clone, li);
+      clone.addEventListener('click', (e) => {
+        const cbNew = clone.querySelector('input[type="checkbox"]');
+        if (e.target.tagName !== 'INPUT') cbNew.checked = !cbNew.checked;
+        state[id] = cbNew.checked;
+        clone.classList.toggle('done', cbNew.checked);
+        try { localStorage.setItem(key, JSON.stringify(state)); } catch(e) {}
+      });
+      // Restore checked state after clone
+      const cbNew = clone.querySelector('input[type="checkbox"]');
+      if (state[id]) { cbNew.checked = true; clone.classList.add('done'); }
+    });
+  });
+}
+
+// ============= AUDIOGUIDA =============
+const AP_CHAPTERS = [
+  {n:1, title:"Arrivo a Reykjavík",           date:"Mer 15 luglio", mp3:"audio-01.mp3"},
+  {n:2, title:"Il Golden Circle",              date:"Gio 16 luglio", mp3:"audio-02.mp3"},
+  {n:3, title:"La Costa Sud",                  date:"Ven 17 luglio", mp3:"audio-03.mp3"},
+  {n:4, title:"Ghiacciai e diamanti",          date:"Sab 18 luglio", mp3:"audio-04.mp3"},
+  {n:5, title:"I Fiordi dell'Est",             date:"Dom 19 luglio", mp3:"audio-05.mp3"},
+  {n:6, title:"Mývatn, terra di lava",         date:"Lun 20 luglio", mp3:"audio-06.mp3"},
+  {n:7, title:"Le balene di Húsavík",          date:"Mar 21 luglio", mp3:"audio-07.mp3"},
+  {n:8, title:"Attraverso l'Islanda",          date:"Mer 22 luglio", mp3:"audio-08.mp3"},
+  {n:9, title:"Snæfellsnes, Islanda in min.",  date:"Gio 23 luglio", mp3:"audio-09.mp3"},
+  {n:10,title:"L'ultimo giorno",               date:"Ven 24 luglio", mp3:"audio-10.mp3"}
+];
+let apCurrent = null;
+let apRate = 1.0;
+const AP_RATES = [0.85, 1.0, 1.15, 1.3];
+const apAudio = new Audio();
+
+function apFmtTime(s) {
+  if (!s || isNaN(s)) return '0:00';
+  return Math.floor(s/60) + ':' + String(Math.floor(s%60)).padStart(2,'0');
+}
+
+function apRenderList() {
+  document.getElementById('audio-chapter-list').innerHTML = AP_CHAPTERS.map(c => `
+    <div onclick="apPlay(${c.n})" style="
+      background:var(--bg-elevated);border-radius:14px;padding:14px 16px;margin-bottom:8px;
+      border:1px solid ${apCurrent===c.n ? 'var(--gold)' : 'var(--border)'};
+      background:${apCurrent===c.n ? 'rgba(212,165,116,0.08)' : 'var(--bg-elevated)'};
+      display:flex;align-items:center;gap:14px;cursor:pointer;">
+      <div style="
+        background:${apCurrent===c.n ? 'linear-gradient(135deg,var(--gold),#b8894f)' : 'linear-gradient(135deg,var(--brand),var(--brand-light))'};
+        color:${apCurrent===c.n ? 'white' : 'var(--gold)'};
+        width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;
+        font-size:16px;font-weight:800;flex-shrink:0;">${String(c.n).padStart(2,'0')}</div>
+      <div style="flex:1;min-width:0;">
+        <div style="font-weight:600;font-size:15px;line-height:1.2;">${c.title}</div>
+        <div style="font-size:12px;color:var(--text-muted);margin-top:3px;">${c.date}</div>
+      </div>
+      <div style="color:${apCurrent===c.n ? 'var(--gold)' : 'var(--text-muted)'};font-size:22px;">${apCurrent===c.n ? '▶' : '▷'}</div>
+    </div>`).join('');
+}
+
+function apPlay(n) {
+  const c = AP_CHAPTERS[n-1];
+  if (!c) return;
+  apCurrent = n;
+  apAudio.src = c.mp3;
+  apAudio.playbackRate = apRate;
+  apAudio.play().catch(()=>{});
+  document.getElementById('ap-title').textContent = c.title;
+  document.getElementById('ap-sub').textContent = `Capitolo ${c.n} · ${c.date}`;
+  apRenderList();
+}
+
+function apToggle() {
+  if (!apCurrent) { apPlay(1); return; }
+  apAudio.paused ? apAudio.play() : apAudio.pause();
+}
+
+function apPrev() { if (apCurrent && apCurrent > 1) apPlay(apCurrent - 1); }
+function apNext() { if (apCurrent && apCurrent < 10) apPlay(apCurrent + 1); }
+function apFwd()  { apAudio.currentTime = Math.min(apAudio.duration||0, apAudio.currentTime+15); }
+function apBack() { apAudio.currentTime = Math.max(0, apAudio.currentTime-15); }
+
+function apSeek(e) {
+  if (!apAudio.duration) return;
+  const r = e.currentTarget.getBoundingClientRect();
+  apAudio.currentTime = ((e.clientX - r.left) / r.width) * apAudio.duration;
+}
+
+function apCycleSpeed() {
+  const i = AP_RATES.indexOf(apRate);
+  apRate = AP_RATES[(i+1) % AP_RATES.length];
+  apAudio.playbackRate = apRate;
+  document.getElementById('ap-speed').textContent = apRate + '×';
+}
+
+apAudio.addEventListener('play',  () => { document.getElementById('ap-btn').textContent = '⏸'; });
+apAudio.addEventListener('pause', () => { document.getElementById('ap-btn').textContent = '▶'; });
+apAudio.addEventListener('timeupdate', () => {
+  const pct = apAudio.duration ? (apAudio.currentTime / apAudio.duration) * 100 : 0;
+  document.getElementById('ap-fill').style.width = pct + '%';
+  document.getElementById('ap-cur').textContent = apFmtTime(apAudio.currentTime);
+  document.getElementById('ap-tot').textContent = apFmtTime(apAudio.duration);
+});
+apAudio.addEventListener('ended', () => {
+  if (apCurrent < 10) apPlay(apCurrent + 1);
 });
 
-document.addEventListener('DOMContentLoaded', renderChapterList);
+// ============= INIT =============
+document.addEventListener('DOMContentLoaded', () => {
+  renderHome();
+  renderDays();
+  renderHotels();
+  renderSOS();
+  apRenderList();
+});
 </script>
 
 </body>
