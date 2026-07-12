@@ -134,7 +134,7 @@ li { margin-bottom: 3px; color: var(--text-secondary); }
   -webkit-backdrop-filter: saturate(180%) blur(20px);
   border-top: 0.5px solid var(--border);
   display: grid;
-  grid-template-columns: repeat(6, 1fr);
+  grid-template-columns: repeat(5, 1fr);
   z-index: 100;
 }
 .tab-btn {
@@ -609,13 +609,8 @@ tr td strong { color: var(--text); }
 <!-- ============= APP CONTENT ============= -->
 <main class="app-content" id="app-content">
 
-<!-- ============= TAB: HOME (OGGI) ============= -->
-<section class="tab-panel active" id="tab-home">
-  <div id="home-content"></div>
-</section>
-
 <!-- ============= TAB: GIORNI ============= -->
-<section class="tab-panel" id="tab-days">
+<section class="tab-panel active" id="tab-days">
   <div class="section-title large">Itinerario</div>
   <div class="section-subtitle">10 giorni · Ring Road + Snæfellsnes</div>
   <div class="calendar-strip" id="calendar-strip"></div>
@@ -707,8 +702,7 @@ tr td strong { color: var(--text); }
 
 <!-- ============= TAB BAR ============= -->
 <nav class="tab-bar">
-  <button class="tab-btn active" onclick="switchTab('home', this)"><span class="tab-icon">🏠</span><span>Oggi</span></button>
-  <button class="tab-btn" onclick="switchTab('days', this)"><span class="tab-icon">📅</span><span>Giorni</span></button>
+  <button class="tab-btn active" onclick="switchTab('days', this)"><span class="tab-icon">📅</span><span>Giorni</span></button>
   <button class="tab-btn" onclick="switchTab('hotels', this)"><span class="tab-icon">🏨</span><span>Hotel</span></button>
   <button class="tab-btn" onclick="switchTab('info', this)"><span class="tab-icon">ℹ️</span><span>Info</span></button>
   <button class="tab-btn" onclick="switchTab('audio', this)"><span class="tab-icon">🎙️</span><span>Audio</span></button>
@@ -891,25 +885,22 @@ const DAYS = [
     boxes: []
   },
   {
-    n:10, date:"Ven 24 luglio", title:"Glymur Hike + Reykjavik + Volo", route:"Hvalfjarðarsveit → Reykjavik → Keflavik", stats:"~140 km · 3h guida",
+    n:10, date:"Ven 24 luglio", title:"Blue Lagoon + Volo", route:"Hvalfjarðarsveit → Grindavík → Keflavik", stats:"~110 km · 2h guida",
     hotel: null,
     timeline: [
-      ["06:45", "📞 Chiama reception per late check-out"],
-      ["07:30", "Drive Glymur trailhead Botnsdalur (25 min)"],
-      ["08:00", `🥾 <a class="mp" href="${M('Glymur Waterfall Trailhead Botnsdalur')}">Glymur Falls</a> · 7.5 km loop · 3.5h · ⚠️ fiume da guadare (sandali!)`],
-      ["12:00", "🚿 Doccia + bagagli + check-out"],
-      ["12:45", `🌊 <a class="mp" href="${M('Blue Lagoon Iceland')}">Blue Lagoon</a> (★ prenotato) · sulla strada per Keflavik · ~1h30`],
-      ["14:15", `⛽ <a class="mp" href="${M('N1 Reykjanesbraut Hafnarfjordur')}">N1 Reykjanesbraut</a> · <strong>conserva scontrino!</strong>`],
-      ["15:30", "Partenza per Keflavik (~20 min)"],
-      ["16:00", "🚗 Riconsegna FairCar Bogatröð"],
-      ["17:00", "🛒 Duty free: Skyr, Omnom, Brennivín"],
+      ["08:30", "🚿 Doccia + bagagli + check-out"],
+      ["09:15", "Drive Blue Lagoon (~50 min da Hvalfjarðarsveit)"],
+      ["10:15", `🌊 <a class="mp" href="${M('Blue Lagoon Iceland')}">Blue Lagoon</a> (★ prenotato) · 4 ore`],
+      ["14:15", "Drive aeroporto Keflavik (~15 min)"],
+      ["14:30", `⛽ <a class="mp" href="${M('N1 Keflavik')}">N1 Keflavik</a> · pieno · <strong>conserva scontrino!</strong>`],
+      ["15:00", "🚗 Riconsegna FairCar Bogatröð"],
+      ["16:00", "🛒 Duty free: Skyr, Omnom, Brennivín"],
       ["19:55", "✈️ Imbarco EJU3976"],
       ["02:10", "🛬 Malpensa T2 · Casa!"]
     ],
     boxes: [
-      {type:"gold", title:"🏨 Last day", text:"No hotel stanotte, in volo. Late check-out 13:00 dal Glymur (chiama reception 6:45)."},
-      {type:"success", title:"🌊 Blue Lagoon", text:"La Blue Lagoon è sulla strada verso Keflavik (Grindavík). Porta il voucher, asciugamano, shampoo incluso. L'acqua è ~39° e ricca di silice: non bagnare i capelli se puoi."},
-      {type:"warn", title:"⚠️ Glymur zaino", text:"Acqua + snack, giacca antivento, sandali/ciabatte per fiume, asciugamano piccolo, scarpe trekking (no scarpe città)."}
+      {type:"gold", title:"🏨 Last day", text:"No hotel stanotte, in volo. Check-out Glymur entro le 09:00."},
+      {type:"success", title:"🌊 Blue Lagoon", text:"Porta il voucher prenotato. Asciugamano e accappatoio inclusi nel biglietto. L'acqua è ~39°, ricca di silice: non bagnare i capelli se puoi. 4 ore sono perfette per godersi tutto con calma."}
     ]
   }
 ];
@@ -930,7 +921,7 @@ function switchTab(tab, btn) {
     if (currentInfoPage) showInfoPageInternal(currentInfoPage);
     else updateHeader('Info');
   }
-  const titles = { home:'Islanda 2026', days:'Itinerario', hotels:'Hotel', info:'Info', audio:'Audioguida', sos:'Emergenza' };
+  const titles = { days:'Itinerario', hotels:'Hotel', info:'Info', audio:'Audioguida', sos:'Emergenza' };
   updateHeader(titles[tab]);
 }
 
@@ -942,94 +933,6 @@ function updateHeader(title, showBack) {
 function goBack() {
   closeInfoPage();
   updateHeader('Info');
-}
-
-// ============= HOME (DASHBOARD) =============
-function renderHome() {
-  const today = new Date();
-  const tripStart = new Date(2026, 6, 15); // 15 luglio 2026
-  const tripEnd = new Date(2026, 6, 24);
-  const dayIdx = Math.floor((today - tripStart) / (1000*60*60*24)) + 1;
-  const daysUntil = Math.ceil((tripStart - today) / (1000*60*60*24));
-
-  let html = '';
-
-  // Hero
-  html += `<div class="card-hero">
-    <div class="card-hero-flag">🇮🇸</div>
-    <h1>Islanda 2026</h1>
-    <div class="card-hero-subtitle">Mina &amp; Ferruccio · 10 giorni</div>
-    <div class="card-hero-grid">
-      <div class="card-hero-stat"><div class="card-hero-stat-label">Date</div><div class="card-hero-stat-value">15 → 24 lug</div></div>
-      <div class="card-hero-stat"><div class="card-hero-stat-label">Distanza</div><div class="card-hero-stat-value">~1.800 km</div></div>
-    </div>
-  </div>`;
-
-  if (dayIdx >= 1 && dayIdx <= 10) {
-    // DURING TRIP
-    const day = DAYS[dayIdx - 1];
-    const hotel = day.hotel !== null ? HOTELS[day.hotel] : null;
-    html += `<div class="card">
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
-        <div>
-          <div style="font-size:11px;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px;font-weight:700;">GIORNO ${day.n} DI 10</div>
-          <div style="font-size:20px;font-weight:700;letter-spacing:-0.3px;margin-top:2px;">${day.title}</div>
-        </div>
-        <span class="today-pill">Oggi</span>
-      </div>
-      <div style="color:var(--text-muted);font-size:13px;">${day.route} · ${day.stats}</div>
-      <button class="btn btn-primary btn-block btn-large mt-1" onclick="switchTab('days', document.querySelectorAll('.tab-btn')[1]); setTimeout(()=>openDay(${day.n}),100);">Vedi programma →</button>
-    </div>`;
-
-    if (hotel) {
-      html += `<div class="list-header">Stanotte dormite qui</div>
-        <div class="hotel-card">
-          <div class="hotel-card-top">
-            <div class="hotel-card-num">${hotel.n}</div>
-            <div class="hotel-card-title">
-              <div class="hotel-card-name">${hotel.name}</div>
-              <div class="hotel-card-dates">${hotel.loc}</div>
-            </div>
-            ${hotel.rating ? `<div class="hotel-card-rating">${hotel.rating}</div>` : ''}
-          </div>
-          <div class="hotel-card-actions">
-            <a class="btn btn-map" href="${M(hotel.mapQuery)}">📍 Mappa</a>
-            ${hotel.phone ? `<a class="btn btn-success solid" href="tel:${hotel.phone}">📞 Chiama</a>` : ''}
-          </div>
-        </div>`;
-    }
-  } else if (daysUntil > 0) {
-    // BEFORE TRIP
-    html += `<div class="card center">
-      <div style="font-size:11px;color:var(--text-muted);text-transform:uppercase;letter-spacing:1.5px;font-weight:700;">MANCANO</div>
-      <div style="font-size:56px;font-weight:800;color:var(--brand);letter-spacing:-2px;line-height:1;margin:6px 0;">${daysUntil}</div>
-      <div style="font-size:15px;color:var(--text-secondary);">giorni alla partenza</div>
-    </div>`;
-  } else {
-    // AFTER TRIP
-    html += `<div class="card center">
-      <div style="font-size:20px;font-weight:700;margin:8px 0;">Bentornati! 🇮🇹</div>
-      <p>Il viaggio è finito ma la guida resta qui.</p>
-    </div>`;
-  }
-
-  // Quick actions
-  html += `<div class="list-header">Accesso rapido</div>
-    <div class="list-group">
-      <a class="list-item" href="https://vedur.is" target="_blank"><span class="icon">🌦️</span><span class="label">Meteo Islanda</span><span class="value">vedur.is</span><span class="chevron"></span></a>
-      <a class="list-item" href="https://safetravel.is" target="_blank"><span class="icon">🚧</span><span class="label">Condizioni strade</span><span class="value">safetravel.is</span><span class="chevron"></span></a>
-      <button class="list-item" onclick="switchTab('sos',document.querySelectorAll('.tab-btn')[4])"><span class="icon">🚨</span><span class="label">Emergenza</span><span class="chevron"></span></button>
-    </div>`;
-
-  // Budget snapshot
-  html += `<div class="list-header">Budget</div>
-    <div class="budget-total">
-      <div class="lbl">Costo totale stimato</div>
-      <div class="val">€5.595</div>
-      <div class="sub">~€2.798 a persona</div>
-    </div>`;
-
-  document.getElementById('home-content').innerHTML = html;
 }
 
 // ============= DAYS =============
@@ -1637,7 +1540,6 @@ apAudio.addEventListener('ended', () => {
 
 // ============= INIT =============
 document.addEventListener('DOMContentLoaded', () => {
-  renderHome();
   renderDays();
   renderHotels();
   renderSOS();
